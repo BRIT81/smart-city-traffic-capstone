@@ -21,3 +21,6 @@ Thumbs.db
 
 # MLflow local runs (tracked selectively; see part3 README)
 part3_machine_learning/mlflow/mlruns/
+
+# SQLite temp files
+*.db-journal
