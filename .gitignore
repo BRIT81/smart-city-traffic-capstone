@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Secrets / credentials
+.env
+*.pem
+*.key
+
+# Large / generated artifacts (keep repo lean; regenerate via pipeline)
+*.tmp
+
+# MLflow local runs (tracked selectively; see part3 README)
+part3_machine_learning/mlflow/mlruns/
