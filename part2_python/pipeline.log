@@ -1,0 +1,80 @@
+2026-09-13 10:47:39 | INFO     | __main__ | Logging initialised. Writing detailed logs to C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\part2_python\pipeline.log
+2026-09-13 11:11:28 | INFO     | __main__ | Loading data from C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\data\Metro_Interstate_Traffic_Volume.csv
+2026-09-13 11:11:28 | INFO     | __main__ | Loaded 48204 rows and 9 columns
+2026-09-13 11:12:54 | INFO     | __main__ | Schema validation passed: all 9 expected columns are present.
+2026-09-13 11:22:21 | INFO     | __main__ | 'holiday' already parsed as missing (NaN) for 48143 non-holiday rows (pandas recognised the source CSV's literal 'None' text automatically).
+2026-09-13 11:22:21 | WARNING  | __main__ | Standardised casing to lowercase in 1730 rows of 'weather_description' (merging case-variant duplicates such as 'Sky is Clear' / 'sky is clear').
+2026-09-13 11:22:21 | INFO     | __main__ | 'weather_description' now has 37 unique values (was 38 before standardisation).
+2026-09-13 11:24:38 | INFO     | __main__ | All 48204 values in 'date_time' parsed successfully as datetimes (was dtype 'object').
+2026-09-13 11:24:38 | INFO     | __main__ | 'date_time' range: 2012-10-02 09:00:00 to 2018-09-30 23:00:00.
+2026-09-13 11:28:52 | WARNING  | __main__ | Removed 17 exact duplicate rows.
+2026-09-13 11:28:53 | WARNING  | __main__ | Collapsed 5430 duplicate-timestamp hours (7612 rows removed) down to one row per hour; 0 of these hours had inconsistent traffic_volume across duplicates.
+2026-09-13 11:32:48 | WARNING  | __main__ | Found 10 rows with physically impossible 'temp' readings (<= 0 Kelvin).
+2026-09-13 11:32:48 | WARNING  | __main__ | Found 1 rows with physically implausible 'rain_1h' readings (> 1000mm/hour): [9831.3]
+2026-09-13 11:32:48 | WARNING  | __main__ | Imputed 4 missing 'temp' value(s) in month 1 using that month's median (265.48).
+2026-09-13 11:32:48 | WARNING  | __main__ | Imputed 6 missing 'temp' value(s) in month 2 using that month's median (265.89).
+2026-09-13 11:32:48 | WARNING  | __main__ | Imputed 1 missing 'rain_1h' value(s) in month 7 using that month's median (0.00).
+2026-09-13 11:45:38 | INFO     | __main__ | Loading data from C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\data\Metro_Interstate_Traffic_Volume.csv
+2026-09-13 11:45:38 | INFO     | __main__ | Loaded 48204 rows and 9 columns
+2026-09-13 11:45:38 | INFO     | __main__ | Schema validation passed: all 9 expected columns are present.
+2026-09-13 11:45:38 | INFO     | __main__ | 'holiday' already parsed as missing (NaN) for 48143 non-holiday rows (pandas recognised the source CSV's literal 'None' text automatically).
+2026-09-13 11:45:38 | WARNING  | __main__ | Standardised casing to lowercase in 1730 rows of 'weather_description' (merging case-variant duplicates such as 'Sky is Clear' / 'sky is clear').
+2026-09-13 11:45:38 | INFO     | __main__ | 'weather_description' now has 37 unique values (was 38 before standardisation).
+2026-09-13 11:45:38 | INFO     | __main__ | All 48204 values in 'date_time' parsed successfully as datetimes (was dtype 'object').
+2026-09-13 11:45:38 | INFO     | __main__ | 'date_time' range: 2012-10-02 09:00:00 to 2018-09-30 23:00:00.
+2026-09-13 11:45:38 | WARNING  | __main__ | Removed 17 exact duplicate rows.
+2026-09-13 11:45:39 | WARNING  | __main__ | Collapsed 5430 duplicate-timestamp hours (7612 rows removed) down to one row per hour; 0 of these hours had inconsistent traffic_volume across duplicates.
+2026-09-13 11:45:39 | WARNING  | __main__ | Found 10 rows with physically impossible 'temp' readings (<= 0 Kelvin).
+2026-09-13 11:45:39 | WARNING  | __main__ | Found 1 rows with physically implausible 'rain_1h' readings (> 1000mm/hour): [9831.3]
+2026-09-13 11:45:39 | WARNING  | __main__ | Imputed 4 missing 'temp' value(s) in month 1 using that month's median (265.48).
+2026-09-13 11:45:39 | WARNING  | __main__ | Imputed 6 missing 'temp' value(s) in month 2 using that month's median (265.89).
+2026-09-13 11:45:39 | WARNING  | __main__ | Imputed 1 missing 'rain_1h' value(s) in month 7 using that month's median (0.00).
+2026-09-13 11:45:39 | INFO     | __main__ | Pipeline completed successfully. Final shape: 40575 rows, 9 columns.
+2026-09-13 11:46:30 | INFO     | __main__ | Loading data from C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\data\this_file_does_not_exist.csv
+2026-09-13 11:46:30 | ERROR    | __main__ | Data file not found at C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\data\this_file_does_not_exist.csv
+2026-09-13 11:46:30 | ERROR    | __main__ | Pipeline failed and could not complete.
+Traceback (most recent call last):
+  File "C:\Users\user\AppData\Local\Temp\ipykernel_32356\1086999980.py", line 7, in run_pipeline
+    df = load_data(csv_path)
+  File "C:\Users\user\AppData\Local\Temp\ipykernel_32356\388496460.py", line 7, in load_data
+    df = pd.read_csv(csv_path)
+  File "C:\Users\user\anaconda3\Lib\site-packages\pandas\io\parsers\readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "C:\Users\user\anaconda3\Lib\site-packages\pandas\io\parsers\readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "C:\Users\user\anaconda3\Lib\site-packages\pandas\io\parsers\readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\user\anaconda3\Lib\site-packages\pandas\io\parsers\readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+                   ~~~~~~~~~~^
+        f,
+        ^^
+    ...<6 lines>...
+        storage_options=self.options.get("storage_options", None),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\user\anaconda3\Lib\site-packages\pandas\io\common.py", line 873, in get_handle
+    handle = open(
+        handle,
+    ...<3 lines>...
+        newline="",
+    )
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\user\\OneDrive\\Documents\\AI ML and DS Course NUS\\Capstone Project\\smart-city-traffic-capstone\\data\\this_file_does_not_exist.csv'
+2026-09-13 12:11:03 | INFO     | __main__ | Loading data from C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\data\Metro_Interstate_Traffic_Volume.csv
+2026-09-13 12:11:03 | INFO     | __main__ | Loaded 48204 rows and 9 columns
+2026-09-13 12:11:03 | INFO     | __main__ | Schema validation passed: all 9 expected columns are present.
+2026-09-13 12:11:03 | INFO     | __main__ | 'holiday' already parsed as missing (NaN) for 48143 non-holiday rows (pandas recognised the source CSV's literal 'None' text automatically).
+2026-09-13 12:11:03 | WARNING  | __main__ | Standardised casing to lowercase in 1730 rows of 'weather_description' (merging case-variant duplicates such as 'Sky is Clear' / 'sky is clear').
+2026-09-13 12:11:03 | INFO     | __main__ | 'weather_description' now has 37 unique values (was 38 before standardisation).
+2026-09-13 12:11:03 | INFO     | __main__ | All 48204 values in 'date_time' parsed successfully as datetimes (was dtype 'object').
+2026-09-13 12:11:03 | INFO     | __main__ | 'date_time' range: 2012-10-02 09:00:00 to 2018-09-30 23:00:00.
+2026-09-13 12:11:03 | WARNING  | __main__ | Removed 17 exact duplicate rows.
+2026-09-13 12:11:04 | WARNING  | __main__ | Collapsed 5430 duplicate-timestamp hours (7612 rows removed) down to one row per hour; 0 of these hours had inconsistent traffic_volume across duplicates.
+2026-09-13 12:11:04 | WARNING  | __main__ | Found 10 rows with physically impossible 'temp' readings (<= 0 Kelvin).
+2026-09-13 12:11:04 | WARNING  | __main__ | Found 1 rows with physically implausible 'rain_1h' readings (> 1000mm/hour): [9831.3]
+2026-09-13 12:11:04 | WARNING  | __main__ | Imputed 4 missing 'temp' value(s) in month 1 using that month's median (265.48).
+2026-09-13 12:11:04 | WARNING  | __main__ | Imputed 6 missing 'temp' value(s) in month 2 using that month's median (265.89).
+2026-09-13 12:11:04 | WARNING  | __main__ | Imputed 1 missing 'rain_1h' value(s) in month 7 using that month's median (0.00).
+2026-09-13 12:11:04 | INFO     | __main__ | Pipeline completed successfully. Final shape: 40575 rows, 9 columns.
