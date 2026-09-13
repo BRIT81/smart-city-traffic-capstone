@@ -161,3 +161,139 @@ FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\user\\OneDri
 2026-09-13 13:53:57 | INFO     | __main__ | Saved figure: C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\part2_python\figures\traffic_distribution.png
 2026-09-13 13:53:58 | INFO     | __main__ | Saved figure: C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\part2_python\figures\traffic_by_weather.png
 2026-09-13 13:53:58 | INFO     | __main__ | All Task 3 visualisations generated.
+2026-09-13 14:28:34 | INFO     | __main__ | Command 'query' invoked with arguments: {'datetime': '2018-06-15 08:00:00'}
+2026-09-13 14:28:34 | INFO     | pipeline | Loading data from C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\data\Metro_Interstate_Traffic_Volume.csv
+2026-09-13 14:28:34 | INFO     | pipeline | Loaded 48204 rows and 9 columns
+2026-09-13 14:28:34 | INFO     | pipeline | Schema validation passed: all 9 expected columns are present.
+2026-09-13 14:28:34 | INFO     | pipeline | 'holiday' already parsed as missing (NaN) for 48143 non-holiday rows (pandas recognised the source CSV's literal 'None' text automatically).
+2026-09-13 14:28:34 | WARNING  | pipeline | Standardised casing to lowercase in 1730 rows of 'weather_description' (merging case-variant duplicates such as 'Sky is Clear' / 'sky is clear').
+2026-09-13 14:28:35 | INFO     | pipeline | 'weather_description' now has 37 unique values (was 38 before standardisation).
+2026-09-13 14:28:35 | INFO     | pipeline | All 48204 values in 'date_time' parsed successfully as datetimes (was dtype 'object').
+2026-09-13 14:28:35 | INFO     | pipeline | 'date_time' range: 2012-10-02 09:00:00 to 2018-09-30 23:00:00.
+2026-09-13 14:28:35 | WARNING  | pipeline | Removed 17 exact duplicate rows.
+2026-09-13 14:28:35 | WARNING  | pipeline | Collapsed 5430 duplicate-timestamp hours (7612 rows removed) down to one row per hour; 0 of these hours had inconsistent traffic_volume across duplicates.
+2026-09-13 14:28:35 | WARNING  | pipeline | Found 10 rows with physically impossible 'temp' readings (<= 0 Kelvin).
+2026-09-13 14:28:35 | WARNING  | pipeline | Found 1 rows with physically implausible 'rain_1h' readings (> 1000mm/hour): [9831.3]
+2026-09-13 14:28:35 | WARNING  | pipeline | Imputed 4 missing 'temp' value(s) in month 1 using that month's median (265.48).
+2026-09-13 14:28:35 | WARNING  | pipeline | Imputed 6 missing 'temp' value(s) in month 2 using that month's median (265.89).
+2026-09-13 14:28:35 | WARNING  | pipeline | Imputed 1 missing 'rain_1h' value(s) in month 7 using that month's median (0.00).
+2026-09-13 14:28:35 | INFO     | pipeline | Pipeline completed successfully. Final shape: 40575 rows, 9 columns.
+2026-09-13 14:28:35 | INFO     | feature_engineering | Feature engineering started. Input shape: 40575 rows, 9 columns.
+2026-09-13 14:28:35 | INFO     | feature_engineering | Added time features: hour, day_of_week, is_weekend, hour_sin, hour_cos.
+2026-09-13 14:28:35 | INFO     | feature_engineering | One-hot encoded 'weather_main' into 11 columns (prefix 'wx_').
+2026-09-13 14:28:35 | INFO     | feature_engineering | Added 'is_severe_weather' indicator (['Thunderstorm', 'Squall']); 454 of 40575 rows flagged.
+2026-09-13 14:28:35 | DEBUG    | feature_engineering | 'temp' scaling parameters: mean=281.3823, std=13.0939.
+2026-09-13 14:28:35 | DEBUG    | feature_engineering | 'traffic_volume' scaling parameters: mean=3290.6505, std=1984.7729.
+2026-09-13 14:28:35 | INFO     | feature_engineering | Created scaled versions of: ['temp', 'traffic_volume'].
+2026-09-13 14:28:35 | DEBUG    | feature_engineering | Congestion category thresholds for 'traffic_volume': Q1=1248.50, Q3=4952.00.
+2026-09-13 14:28:35 | INFO     | feature_engineering | Created 'congestion_category' (Low <= 1248.50, Medium, High > 4952.00): {'Medium': 20289, 'Low': 10144, 'High': 10142}
+2026-09-13 14:28:35 | INFO     | feature_engineering | Feature engineering completed. Output shape: 40575 rows, 29 columns.
+2026-09-13 14:28:46 | INFO     | __main__ | Command 'peak-hours' invoked with arguments: {'top': 5}
+2026-09-13 14:28:46 | INFO     | pipeline | Loading data from C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\data\Metro_Interstate_Traffic_Volume.csv
+2026-09-13 14:28:46 | INFO     | pipeline | Loaded 48204 rows and 9 columns
+2026-09-13 14:28:46 | INFO     | pipeline | Schema validation passed: all 9 expected columns are present.
+2026-09-13 14:28:46 | INFO     | pipeline | 'holiday' already parsed as missing (NaN) for 48143 non-holiday rows (pandas recognised the source CSV's literal 'None' text automatically).
+2026-09-13 14:28:46 | WARNING  | pipeline | Standardised casing to lowercase in 1730 rows of 'weather_description' (merging case-variant duplicates such as 'Sky is Clear' / 'sky is clear').
+2026-09-13 14:28:46 | INFO     | pipeline | 'weather_description' now has 37 unique values (was 38 before standardisation).
+2026-09-13 14:28:46 | INFO     | pipeline | All 48204 values in 'date_time' parsed successfully as datetimes (was dtype 'object').
+2026-09-13 14:28:46 | INFO     | pipeline | 'date_time' range: 2012-10-02 09:00:00 to 2018-09-30 23:00:00.
+2026-09-13 14:28:46 | WARNING  | pipeline | Removed 17 exact duplicate rows.
+2026-09-13 14:28:46 | WARNING  | pipeline | Collapsed 5430 duplicate-timestamp hours (7612 rows removed) down to one row per hour; 0 of these hours had inconsistent traffic_volume across duplicates.
+2026-09-13 14:28:46 | WARNING  | pipeline | Found 10 rows with physically impossible 'temp' readings (<= 0 Kelvin).
+2026-09-13 14:28:46 | WARNING  | pipeline | Found 1 rows with physically implausible 'rain_1h' readings (> 1000mm/hour): [9831.3]
+2026-09-13 14:28:46 | WARNING  | pipeline | Imputed 4 missing 'temp' value(s) in month 1 using that month's median (265.48).
+2026-09-13 14:28:46 | WARNING  | pipeline | Imputed 6 missing 'temp' value(s) in month 2 using that month's median (265.89).
+2026-09-13 14:28:46 | WARNING  | pipeline | Imputed 1 missing 'rain_1h' value(s) in month 7 using that month's median (0.00).
+2026-09-13 14:28:46 | INFO     | pipeline | Pipeline completed successfully. Final shape: 40575 rows, 9 columns.
+2026-09-13 14:28:46 | INFO     | feature_engineering | Feature engineering started. Input shape: 40575 rows, 9 columns.
+2026-09-13 14:28:46 | INFO     | feature_engineering | Added time features: hour, day_of_week, is_weekend, hour_sin, hour_cos.
+2026-09-13 14:28:46 | INFO     | feature_engineering | One-hot encoded 'weather_main' into 11 columns (prefix 'wx_').
+2026-09-13 14:28:46 | INFO     | feature_engineering | Added 'is_severe_weather' indicator (['Thunderstorm', 'Squall']); 454 of 40575 rows flagged.
+2026-09-13 14:28:46 | DEBUG    | feature_engineering | 'temp' scaling parameters: mean=281.3823, std=13.0939.
+2026-09-13 14:28:46 | DEBUG    | feature_engineering | 'traffic_volume' scaling parameters: mean=3290.6505, std=1984.7729.
+2026-09-13 14:28:46 | INFO     | feature_engineering | Created scaled versions of: ['temp', 'traffic_volume'].
+2026-09-13 14:28:46 | DEBUG    | feature_engineering | Congestion category thresholds for 'traffic_volume': Q1=1248.50, Q3=4952.00.
+2026-09-13 14:28:46 | INFO     | feature_engineering | Created 'congestion_category' (Low <= 1248.50, Medium, High > 4952.00): {'Medium': 20289, 'Low': 10144, 'High': 10142}
+2026-09-13 14:28:46 | INFO     | feature_engineering | Feature engineering completed. Output shape: 40575 rows, 29 columns.
+2026-09-13 14:28:56 | INFO     | __main__ | Command 'compare-weekday-weekend' invoked with arguments: {}
+2026-09-13 14:28:56 | INFO     | pipeline | Loading data from C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\data\Metro_Interstate_Traffic_Volume.csv
+2026-09-13 14:28:56 | INFO     | pipeline | Loaded 48204 rows and 9 columns
+2026-09-13 14:28:56 | INFO     | pipeline | Schema validation passed: all 9 expected columns are present.
+2026-09-13 14:28:56 | INFO     | pipeline | 'holiday' already parsed as missing (NaN) for 48143 non-holiday rows (pandas recognised the source CSV's literal 'None' text automatically).
+2026-09-13 14:28:56 | WARNING  | pipeline | Standardised casing to lowercase in 1730 rows of 'weather_description' (merging case-variant duplicates such as 'Sky is Clear' / 'sky is clear').
+2026-09-13 14:28:56 | INFO     | pipeline | 'weather_description' now has 37 unique values (was 38 before standardisation).
+2026-09-13 14:28:56 | INFO     | pipeline | All 48204 values in 'date_time' parsed successfully as datetimes (was dtype 'object').
+2026-09-13 14:28:56 | INFO     | pipeline | 'date_time' range: 2012-10-02 09:00:00 to 2018-09-30 23:00:00.
+2026-09-13 14:28:56 | WARNING  | pipeline | Removed 17 exact duplicate rows.
+2026-09-13 14:28:57 | WARNING  | pipeline | Collapsed 5430 duplicate-timestamp hours (7612 rows removed) down to one row per hour; 0 of these hours had inconsistent traffic_volume across duplicates.
+2026-09-13 14:28:57 | WARNING  | pipeline | Found 10 rows with physically impossible 'temp' readings (<= 0 Kelvin).
+2026-09-13 14:28:57 | WARNING  | pipeline | Found 1 rows with physically implausible 'rain_1h' readings (> 1000mm/hour): [9831.3]
+2026-09-13 14:28:57 | WARNING  | pipeline | Imputed 4 missing 'temp' value(s) in month 1 using that month's median (265.48).
+2026-09-13 14:28:57 | WARNING  | pipeline | Imputed 6 missing 'temp' value(s) in month 2 using that month's median (265.89).
+2026-09-13 14:28:57 | WARNING  | pipeline | Imputed 1 missing 'rain_1h' value(s) in month 7 using that month's median (0.00).
+2026-09-13 14:28:57 | INFO     | pipeline | Pipeline completed successfully. Final shape: 40575 rows, 9 columns.
+2026-09-13 14:28:57 | INFO     | feature_engineering | Feature engineering started. Input shape: 40575 rows, 9 columns.
+2026-09-13 14:28:57 | INFO     | feature_engineering | Added time features: hour, day_of_week, is_weekend, hour_sin, hour_cos.
+2026-09-13 14:28:57 | INFO     | feature_engineering | One-hot encoded 'weather_main' into 11 columns (prefix 'wx_').
+2026-09-13 14:28:57 | INFO     | feature_engineering | Added 'is_severe_weather' indicator (['Thunderstorm', 'Squall']); 454 of 40575 rows flagged.
+2026-09-13 14:28:57 | DEBUG    | feature_engineering | 'temp' scaling parameters: mean=281.3823, std=13.0939.
+2026-09-13 14:28:57 | DEBUG    | feature_engineering | 'traffic_volume' scaling parameters: mean=3290.6505, std=1984.7729.
+2026-09-13 14:28:57 | INFO     | feature_engineering | Created scaled versions of: ['temp', 'traffic_volume'].
+2026-09-13 14:28:57 | DEBUG    | feature_engineering | Congestion category thresholds for 'traffic_volume': Q1=1248.50, Q3=4952.00.
+2026-09-13 14:28:57 | INFO     | feature_engineering | Created 'congestion_category' (Low <= 1248.50, Medium, High > 4952.00): {'Medium': 20289, 'Low': 10144, 'High': 10142}
+2026-09-13 14:28:57 | INFO     | feature_engineering | Feature engineering completed. Output shape: 40575 rows, 29 columns.
+2026-09-13 14:29:05 | INFO     | __main__ | Command 'recommend' invoked with arguments: {'top': 5}
+2026-09-13 14:29:05 | INFO     | pipeline | Loading data from C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\data\Metro_Interstate_Traffic_Volume.csv
+2026-09-13 14:29:05 | INFO     | pipeline | Loaded 48204 rows and 9 columns
+2026-09-13 14:29:05 | INFO     | pipeline | Schema validation passed: all 9 expected columns are present.
+2026-09-13 14:29:05 | INFO     | pipeline | 'holiday' already parsed as missing (NaN) for 48143 non-holiday rows (pandas recognised the source CSV's literal 'None' text automatically).
+2026-09-13 14:29:05 | WARNING  | pipeline | Standardised casing to lowercase in 1730 rows of 'weather_description' (merging case-variant duplicates such as 'Sky is Clear' / 'sky is clear').
+2026-09-13 14:29:05 | INFO     | pipeline | 'weather_description' now has 37 unique values (was 38 before standardisation).
+2026-09-13 14:29:05 | INFO     | pipeline | All 48204 values in 'date_time' parsed successfully as datetimes (was dtype 'object').
+2026-09-13 14:29:05 | INFO     | pipeline | 'date_time' range: 2012-10-02 09:00:00 to 2018-09-30 23:00:00.
+2026-09-13 14:29:05 | WARNING  | pipeline | Removed 17 exact duplicate rows.
+2026-09-13 14:29:06 | WARNING  | pipeline | Collapsed 5430 duplicate-timestamp hours (7612 rows removed) down to one row per hour; 0 of these hours had inconsistent traffic_volume across duplicates.
+2026-09-13 14:29:06 | WARNING  | pipeline | Found 10 rows with physically impossible 'temp' readings (<= 0 Kelvin).
+2026-09-13 14:29:06 | WARNING  | pipeline | Found 1 rows with physically implausible 'rain_1h' readings (> 1000mm/hour): [9831.3]
+2026-09-13 14:29:06 | WARNING  | pipeline | Imputed 4 missing 'temp' value(s) in month 1 using that month's median (265.48).
+2026-09-13 14:29:06 | WARNING  | pipeline | Imputed 6 missing 'temp' value(s) in month 2 using that month's median (265.89).
+2026-09-13 14:29:06 | WARNING  | pipeline | Imputed 1 missing 'rain_1h' value(s) in month 7 using that month's median (0.00).
+2026-09-13 14:29:06 | INFO     | pipeline | Pipeline completed successfully. Final shape: 40575 rows, 9 columns.
+2026-09-13 14:29:06 | INFO     | feature_engineering | Feature engineering started. Input shape: 40575 rows, 9 columns.
+2026-09-13 14:29:06 | INFO     | feature_engineering | Added time features: hour, day_of_week, is_weekend, hour_sin, hour_cos.
+2026-09-13 14:29:06 | INFO     | feature_engineering | One-hot encoded 'weather_main' into 11 columns (prefix 'wx_').
+2026-09-13 14:29:06 | INFO     | feature_engineering | Added 'is_severe_weather' indicator (['Thunderstorm', 'Squall']); 454 of 40575 rows flagged.
+2026-09-13 14:29:06 | DEBUG    | feature_engineering | 'temp' scaling parameters: mean=281.3823, std=13.0939.
+2026-09-13 14:29:06 | DEBUG    | feature_engineering | 'traffic_volume' scaling parameters: mean=3290.6505, std=1984.7729.
+2026-09-13 14:29:06 | INFO     | feature_engineering | Created scaled versions of: ['temp', 'traffic_volume'].
+2026-09-13 14:29:06 | DEBUG    | feature_engineering | Congestion category thresholds for 'traffic_volume': Q1=1248.50, Q3=4952.00.
+2026-09-13 14:29:06 | INFO     | feature_engineering | Created 'congestion_category' (Low <= 1248.50, Medium, High > 4952.00): {'Medium': 20289, 'Low': 10144, 'High': 10142}
+2026-09-13 14:29:06 | INFO     | feature_engineering | Feature engineering completed. Output shape: 40575 rows, 29 columns.
+2026-09-13 14:29:15 | INFO     | __main__ | Command 'query' invoked with arguments: {'datetime': 'not-a-real-date'}
+2026-09-13 14:29:15 | INFO     | pipeline | Loading data from C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\data\Metro_Interstate_Traffic_Volume.csv
+2026-09-13 14:29:15 | INFO     | pipeline | Loaded 48204 rows and 9 columns
+2026-09-13 14:29:15 | INFO     | pipeline | Schema validation passed: all 9 expected columns are present.
+2026-09-13 14:29:15 | INFO     | pipeline | 'holiday' already parsed as missing (NaN) for 48143 non-holiday rows (pandas recognised the source CSV's literal 'None' text automatically).
+2026-09-13 14:29:15 | WARNING  | pipeline | Standardised casing to lowercase in 1730 rows of 'weather_description' (merging case-variant duplicates such as 'Sky is Clear' / 'sky is clear').
+2026-09-13 14:29:15 | INFO     | pipeline | 'weather_description' now has 37 unique values (was 38 before standardisation).
+2026-09-13 14:29:15 | INFO     | pipeline | All 48204 values in 'date_time' parsed successfully as datetimes (was dtype 'object').
+2026-09-13 14:29:15 | INFO     | pipeline | 'date_time' range: 2012-10-02 09:00:00 to 2018-09-30 23:00:00.
+2026-09-13 14:29:15 | WARNING  | pipeline | Removed 17 exact duplicate rows.
+2026-09-13 14:29:15 | WARNING  | pipeline | Collapsed 5430 duplicate-timestamp hours (7612 rows removed) down to one row per hour; 0 of these hours had inconsistent traffic_volume across duplicates.
+2026-09-13 14:29:15 | WARNING  | pipeline | Found 10 rows with physically impossible 'temp' readings (<= 0 Kelvin).
+2026-09-13 14:29:15 | WARNING  | pipeline | Found 1 rows with physically implausible 'rain_1h' readings (> 1000mm/hour): [9831.3]
+2026-09-13 14:29:15 | WARNING  | pipeline | Imputed 4 missing 'temp' value(s) in month 1 using that month's median (265.48).
+2026-09-13 14:29:15 | WARNING  | pipeline | Imputed 6 missing 'temp' value(s) in month 2 using that month's median (265.89).
+2026-09-13 14:29:15 | WARNING  | pipeline | Imputed 1 missing 'rain_1h' value(s) in month 7 using that month's median (0.00).
+2026-09-13 14:29:15 | INFO     | pipeline | Pipeline completed successfully. Final shape: 40575 rows, 9 columns.
+2026-09-13 14:29:15 | INFO     | feature_engineering | Feature engineering started. Input shape: 40575 rows, 9 columns.
+2026-09-13 14:29:15 | INFO     | feature_engineering | Added time features: hour, day_of_week, is_weekend, hour_sin, hour_cos.
+2026-09-13 14:29:15 | INFO     | feature_engineering | One-hot encoded 'weather_main' into 11 columns (prefix 'wx_').
+2026-09-13 14:29:15 | INFO     | feature_engineering | Added 'is_severe_weather' indicator (['Thunderstorm', 'Squall']); 454 of 40575 rows flagged.
+2026-09-13 14:29:15 | DEBUG    | feature_engineering | 'temp' scaling parameters: mean=281.3823, std=13.0939.
+2026-09-13 14:29:15 | DEBUG    | feature_engineering | 'traffic_volume' scaling parameters: mean=3290.6505, std=1984.7729.
+2026-09-13 14:29:15 | INFO     | feature_engineering | Created scaled versions of: ['temp', 'traffic_volume'].
+2026-09-13 14:29:15 | DEBUG    | feature_engineering | Congestion category thresholds for 'traffic_volume': Q1=1248.50, Q3=4952.00.
+2026-09-13 14:29:15 | INFO     | feature_engineering | Created 'congestion_category' (Low <= 1248.50, Medium, High > 4952.00): {'Medium': 20289, 'Low': 10144, 'High': 10142}
+2026-09-13 14:29:15 | INFO     | feature_engineering | Feature engineering completed. Output shape: 40575 rows, 29 columns.
+2026-09-13 14:29:15 | ERROR    | __main__ | Invalid input for command 'query': Unknown datetime string format, unable to parse: not-a-real-date, at position 0
