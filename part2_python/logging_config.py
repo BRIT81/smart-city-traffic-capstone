@@ -41,3 +41,12 @@ def configure_logging(log_file=LOG_FILE):
 
     root_logger.addHandler(console_handler)
     root_logger.addHandler(file_handler)
+
+    # Third-party libraries also use logging.getLogger(__name__), and their
+    # loggers propagate up to the root logger by default. Since root is set
+    # to DEBUG, that would otherwise flood pipeline.log with library-internal
+    # noise (matplotlib's font_manager is especially verbose at DEBUG level).
+    # Raising these to WARNING keeps the log file focused on this project's
+    # own pipeline/feature_engineering/visualizations/CLI events.
+    for noisy_logger in ("matplotlib", "PIL"):
+        logging.getLogger(noisy_logger).setLevel(logging.WARNING)
