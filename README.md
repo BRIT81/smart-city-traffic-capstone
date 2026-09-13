@@ -42,7 +42,7 @@ Part 3 reuses the engineered features and pipeline from Part 2.
 
 ## Status
 
-- [x] Part 1 – Data Analytics (SQL, statistics, probability, Power BI)
+- [ ] Part 1 – Data Analytics (SQL, statistics, probability, Power BI)
 - [ ] Part 2 – Python (pipeline, feature engineering, visualisation, CLI app)
 - [ ] Part 3 – Machine Learning & AI (models, MLOps, recommendation system)
 
