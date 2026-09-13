@@ -26,31 +26,16 @@ sys.path.insert(0, str(PART2_DIR))
 
 from pipeline import run_pipeline, DATA_FILE
 from feature_engineering import engineer_features
-
-LOG_FILE = PART2_DIR / "pipeline.log"
+from logging_config import configure_logging
 
 # ---------------------------------------------------------------------------
 # Logging
 # ---------------------------------------------------------------------------
+# No handlers are configured here: this module only calls getLogger(__name__).
+# Handler setup happens once, inside main() below (see logging_config.
+# configure_logging()), and propagates up to catch every module's log
+# messages via the root logger.
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
-if not logger.handlers:
-    formatter = logging.Formatter(
-        "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
-    )
-
-    console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setLevel(logging.INFO)
-    console_handler.setFormatter(formatter)
-
-    file_handler = logging.FileHandler(LOG_FILE, mode="a", encoding="utf-8")
-    file_handler.setLevel(logging.DEBUG)
-    file_handler.setFormatter(formatter)
-
-    logger.addHandler(console_handler)
-    logger.addHandler(file_handler)
 
 
 # ---------------------------------------------------------------------------
@@ -129,6 +114,8 @@ def build_parser():
 
 
 def main():
+    configure_logging()
+
     parser = build_parser()
     args = parser.parse_args()
 

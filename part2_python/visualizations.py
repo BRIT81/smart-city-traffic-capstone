@@ -22,32 +22,17 @@ from feature_engineering import engineer_features
 # Paths
 # ---------------------------------------------------------------------------
 SCRIPT_DIR = Path(__file__).resolve().parent
-LOG_FILE = SCRIPT_DIR / "pipeline.log"
 FIGURES_DIR = SCRIPT_DIR / "figures"
 FIGURES_DIR.mkdir(exist_ok=True)
 
 # ---------------------------------------------------------------------------
 # Logging
 # ---------------------------------------------------------------------------
+# No handlers are configured here: this module only calls getLogger(__name__).
+# Handler setup happens once, in whichever script's __main__ block is actually
+# run (see logging_config.configure_logging()), and propagates up to catch
+# every module's log messages via the root logger.
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
-if not logger.handlers:
-    formatter = logging.Formatter(
-        "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
-    )
-
-    console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setLevel(logging.INFO)
-    console_handler.setFormatter(formatter)
-
-    file_handler = logging.FileHandler(LOG_FILE, mode="a", encoding="utf-8")
-    file_handler.setLevel(logging.DEBUG)
-    file_handler.setFormatter(formatter)
-
-    logger.addHandler(console_handler)
-    logger.addHandler(file_handler)
 
 
 def plot_traffic_by_hour(df, output_dir=FIGURES_DIR):
@@ -135,6 +120,8 @@ def generate_all_visualizations(df):
 
 
 if __name__ == "__main__":
+    from logging_config import configure_logging
+    configure_logging()
     clean_df = run_pipeline(DATA_FILE)
     feat_df = engineer_features(clean_df)
     generate_all_visualizations(feat_df)

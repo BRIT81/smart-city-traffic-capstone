@@ -22,31 +22,16 @@ import pandas as pd
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent
 DATA_DIR = PROJECT_ROOT / "data"
-LOG_FILE = SCRIPT_DIR / "pipeline.log"
 DATA_FILE = DATA_DIR / "Metro_Interstate_Traffic_Volume.csv"
 
 # ---------------------------------------------------------------------------
 # Logging
 # ---------------------------------------------------------------------------
+# No handlers are configured here: this module only calls getLogger(__name__).
+# Handler setup happens once, in whichever script's __main__ block is actually
+# run (see logging_config.configure_logging()), and propagates up to catch
+# every module's log messages via the root logger.
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
-if not logger.handlers:
-    formatter = logging.Formatter(
-        "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
-    )
-
-    console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setLevel(logging.INFO)
-    console_handler.setFormatter(formatter)
-
-    file_handler = logging.FileHandler(LOG_FILE, mode="a", encoding="utf-8")
-    file_handler.setLevel(logging.DEBUG)
-    file_handler.setFormatter(formatter)
-
-    logger.addHandler(console_handler)
-    logger.addHandler(file_handler)
 
 
 EXPECTED_COLUMNS = [
@@ -244,4 +229,6 @@ def run_pipeline(csv_path):
 
 
 if __name__ == "__main__":
+    from logging_config import configure_logging
+    configure_logging()
     run_pipeline(DATA_FILE)
