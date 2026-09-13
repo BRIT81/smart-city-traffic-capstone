@@ -22,12 +22,16 @@ smart-city-traffic-capstone/
 │   │                       # correlation and probability calculations, Tasks 2-3
 │   └── powerbi/           # Power BI dashboard (.pbix), Task 4
 ├── part2_python/
-│   ├── pipeline.py
-│   ├── feature_engineering.py
-│   ├── visualizations.py
+│   ├── pipeline.py              # Task 1: data cleaning pipeline
+│   ├── feature_engineering.py   # Task 2: feature engineering (builds on Task 1)
+│   ├── visualizations.py        # Task 3: Matplotlib visualisations (builds on Tasks 1-2)
+│   ├── logging_config.py        # shared logging setup, see "Logging configuration" below
 │   ├── mini_app/
-│   ├── figures/
-│   └── pipeline.log
+│   │   └── traffic_cli.py       # Task 4: CLI app (builds on Tasks 1-2)
+│   ├── figures/                 # saved PNG charts from visualizations.py
+│   ├── dev_notebook.ipynb       # interactive prototyping/verification notebook
+│   ├── part2_report.docx        # Task 5: 1-2 page methodology and findings report
+│   └── pipeline.log             # shared log file for every Part 2 script
 └── part3_machine_learning/
     ├── notebooks/
     ├── models/
@@ -42,8 +46,8 @@ Part 3 reuses the engineered features and pipeline from Part 2.
 
 ## Status
 
-- [ ] Part 1 – Data Analytics (SQL, statistics, probability, Power BI)
-- [ ] Part 2 – Python (pipeline, feature engineering, visualisation, CLI app)
+- [x] Part 1 – Data Analytics (SQL, statistics, probability, Power BI)
+- [x] Part 2 – Python (pipeline, feature engineering, visualisation, CLI app)
 - [ ] Part 3 – Machine Learning & AI (models, MLOps, recommendation system)
 
 ## Tools and technologies
@@ -78,11 +82,75 @@ Applied Steps.
 The written findings and interpretation for all four tasks are in
 `part1_data_analytics/part1_analysis_notes.docx`.
 
+### Part 2 — Python (pipeline, feature engineering, visualisation, CLI app)
+
+All scripts live in `part2_python/` and share one dataset, one cleaning pipeline, and one
+log file (`part2_python/pipeline.log`). Each script is independently runnable and rebuilds
+whatever it depends on from the previous task, so any of them can be run on its own:
+
+```
+cd part2_python
+python pipeline.py              # Task 1: load, clean, and validate the raw CSV
+python feature_engineering.py   # Task 2: builds on Task 1, adds ML-ready features
+python visualizations.py        # Task 3: builds on Tasks 1-2, saves four charts to figures/
+```
+
+Task 4, the mini CLI app, lives in `part2_python/mini_app/` and supports four commands, each
+rebuilding the cleaned, feature-engineered dataset from Tasks 1-2 before running the query:
+
+```
+cd part2_python/mini_app
+python traffic_cli.py query --datetime "2018-06-15 08:00:00"
+python traffic_cli.py peak-hours --top 5
+python traffic_cli.py compare-weekday-weekend
+python traffic_cli.py recommend --top 5
+```
+
+`part2_python/dev_notebook.ipynb` contains the interactive, cell-by-cell development and
+verification of every function before it was consolidated into its final script. Task 5's
+1-2 page methodology and findings report is `part2_python/part2_report.docx`.
+
 ## Logging configuration
 
-Documented in `part2_python/README.md` once the pipeline is built (Part 2 requires
-`logging.getLogger(__name__)` throughout, console + file handler in the entry point only,
-writing to `part2_python/pipeline.log`).
+Every module in `part2_python/` (`pipeline.py`, `feature_engineering.py`,
+`visualizations.py`, `mini_app/traffic_cli.py`) calls only `logging.getLogger(__name__)` —
+none of them configure a handler themselves. Handler setup lives in exactly one place,
+`part2_python/logging_config.py`, and is invoked once, from the entry point of whichever
+script is actually run (its `__main__` block, or `traffic_cli.py`'s `main()`). Because Python
+loggers propagate up to the root logger by default, that single configuration call also
+picks up log messages from every module the entry-point script imports — for example,
+running `visualizations.py` captures log output from `pipeline.py` and
+`feature_engineering.py` as well, all in the order they actually execute. Third-party
+loggers (`matplotlib`, `PIL`) are explicitly raised to WARNING so the log stays focused on
+this project's own events.
+
+**Where logs are written:** every run appends to one shared file, `part2_python/pipeline.log`
+(never overwritten), and simultaneously prints INFO-level and above to the console. The file
+captures everything down to DEBUG, so it is the complete audit trail; the console is a
+lighter live view.
+
+**Format:** `<timestamp> | <level> | <module name> | <message>`, for example:
+`2026-09-13 14:48:34 | INFO     | feature_engineering | Feature engineering completed. Output shape: 40575 rows, 29 columns.`
+
+**What each log level represents in this project:**
+
+- **DEBUG** — fine-grained internal values only useful for troubleshooting, e.g. the mean/std
+  used to scale a column, or the quartile thresholds behind a congestion category. Written to
+  the file only, not shown on the console.
+- **INFO** — normal, expected milestones: data loaded, schema validated, a pipeline stage or
+  script completed, a figure saved, a CLI command invoked together with its arguments.
+- **WARNING** — unexpected but recoverable data issues the pipeline handles automatically:
+  duplicate rows removed, physically impossible sensor readings detected, missing values
+  imputed using a monthly median.
+- **ERROR** — a problem that prevents the current operation from completing as planned: the
+  data pipeline logs a full traceback (`exc_info=True`) and exits via `sys.exit(1)` if any
+  cleaning stage fails; the CLI app logs a clear, single-line ERROR message (no traceback) and
+  exits if the user supplies invalid input, such as an unparseable date/time.
+
+No `print()` statements are used anywhere in Part 2 for internal progress reporting — the only
+`print()` calls are in the CLI app, and only for its actual answer to a query (the requested
+traffic/weather record, or a ranked list of hours), since that is end-user-facing output, not
+a status message.
 
 ## Assumptions and limitations
 
