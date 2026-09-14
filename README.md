@@ -45,13 +45,23 @@ smart-city-traffic-capstone/
     ├── recommendation_system/
     │   ├── traffic_recommendation.py     # Task 5: traffic recommendation system
     │   └── task5_recommendations.csv     # generated recommendations, every day-type/weather combination
-    ├── deployment/                       # Task 6: deployment simulation (FastAPI/Flask mock)
-    ├── monitoring/                       # Task 6: drift monitoring
+    ├── model_versioning.py               # Task 6.1-6.2: model version history (v1/v2/v3) logged
+    │                                      # to MLflow, production version registered in the
+    │                                      # MLflow Model Registry
+    ├── deployment/
+    │   ├── app.py                        # Task 6.3: FastAPI service serving the MLflow
+    │   │                                  # registry's "production"-aliased model
+    │   └── prediction_log.csv            # every request/prediction served, written at runtime
+    ├── monitoring/
+    │   └── drift_monitor.py              # Task 6.4-6.5: feature-drift and prediction-error
+    │                                      # checks against prediction_log.csv, console/log
+    │                                      # PASS/ALERT report
     ├── notebooks/
     │   └── dev_notebook.ipynb            # interactive prototyping/verification, every task above
     ├── models/                           # saved joblib/.keras model artifacts, Tasks 1-3
     ├── figures/                          # saved SHAP plots, Task 3
-    ├── mlflow/                           # MLflow SQLite backend and logged run artifacts, Task 4
+    ├── mlflow/                           # MLflow SQLite backend, logged run artifacts and the
+    │                                      # Model Registry, Tasks 4 and 6
     ├── task2_cluster_profile.csv         # Task 2 output
     ├── task2_congestion_rules.csv        # Task 2 output
     ├── task3_hour_shap_effect.csv        # Task 3 output
@@ -65,10 +75,11 @@ Part 3 reuses the engineered features and pipeline from Part 2.
 
 - [x] Part 1 – Data Analytics (SQL, statistics, probability, Power BI)
 - [x] Part 2 – Python (pipeline, feature engineering, visualisation, CLI app)
-- [ ] Part 3 – Machine Learning & AI (models, MLOps, recommendation system) — Tasks 1-5 of 7
+- [ ] Part 3 – Machine Learning & AI (models, MLOps, recommendation system) — Tasks 1-6 of 7
       complete (supervised and unsupervised models, deep learning with explainability, MLflow
-      tracking, recommendation system); Tasks 6-7 (deployment/monitoring simulation,
-      responsible and sustainable AI) pending
+      tracking, recommendation system, model versioning with a registered MLflow model,
+      deployment simulation, drift monitoring and alerting); Task 7 (responsible and
+      sustainable AI) pending
 
 ## Tools and technologies
 
@@ -153,12 +164,48 @@ cd part3_machine_learning/recommendation_system
 python traffic_recommendation.py
 ```
 
-Tasks 3 to 5 reload their dependencies (the relevant saved model from `models/`) from disk
-rather than retraining, so any script can be run on its own, provided `models/` already
-contains the joblib/.keras files a later task depends on, which is already the case in this
-repository.
+Task 6, MLOps and deployment simulation, in three parts. First, model versioning: retrains
+the two earlier, larger model versions, reloads the actual small production model, and logs
+all three to MLflow, registering the production version in the MLflow Model Registry:
 
-To browse Task 4's MLflow experiment visually:
+```
+cd part3_machine_learning
+python model_versioning.py
+```
+
+Second, the deployment simulation: a FastAPI service that loads whichever model version
+currently carries the registry's "production" alias, so re-running `model_versioning.py` to
+promote a new version and restarting this app (no code change) serves the new one:
+
+```
+cd part3_machine_learning/deployment
+pip install fastapi uvicorn    # first time only
+uvicorn app:app --reload
+```
+
+With the app running, try it via the interactive docs at `http://127.0.0.1:8000/docs`, or:
+
+```
+curl -X POST http://127.0.0.1:8000/predict -H "Content-Type: application/json" -d "{\"date_time\": \"2018-06-15T08:00:00\", \"weather_main\": \"Clear\", \"temp\": 295.0, \"rain_1h\": 0.0, \"snow_1h\": 0.0, \"clouds_all\": 20.0, \"is_holiday\": false}"
+```
+
+Every request served is appended to `deployment/prediction_log.csv`. Third, drift monitoring:
+checks that log against the training data's distribution and the production model's held-out
+accuracy, and prints a PASS/ALERT report per check (the app does not need to be running, this
+only reads the log file and the registry):
+
+```
+cd part3_machine_learning
+python monitoring/drift_monitor.py
+```
+
+Tasks 3, 4, and 6 reload their dependencies (the relevant saved model from `models/`, or the
+MLflow-registered production model for Task 6) from disk rather than retraining, so any script
+can be run on its own, provided `models/` already contains the joblib/.keras files a later task
+depends on and the MLflow Model Registry already has a "production"-aliased version, which is
+already the case in this repository.
+
+To browse Task 4's and Task 6's MLflow experiments and registered models visually:
 
 ```
 cd part3_machine_learning
@@ -167,7 +214,11 @@ mlflow ui --backend-store-uri "sqlite:///mlflow/tracking.db"
 
 `part3_machine_learning/notebooks/dev_notebook.ipynb` contains the interactive, cell-by-cell
 development and verification of every function above before it was consolidated into its
-final script.
+final script, up to and including Task 6.1-6.3's model version training and prediction-logic
+prototyping. Task 6.3-6.5's actual `app.py` and `drift_monitor.py` scripts were written
+directly rather than prototyped cell-by-cell (a live API server and a script reading a live
+log file do not fit that pattern the way a data transformation does); the notebook's closing
+cell for Task 6 explains this and summarises how both scripts were verified end to end instead.
 
 ## Logging configuration
 
@@ -218,9 +269,26 @@ a status message.
 at the front of `sys.path` immediately before importing its `logging_config`, so that bare
 import resolves to Part 3's own module and log file rather than Part 2's same-named one.
 
+`deployment/app.py` is a partial exception to the `__main__`-block pattern: since `uvicorn`
+imports it as a module rather than executing it as a script, its `__main__` block never runs
+under `uvicorn app:app`. Its logging configuration call therefore happens once, at module
+import time, immediately after the `sys.path` fix, rather than being gated behind
+`if __name__ == "__main__":`; `configure_logging()` is a no-op if handlers are already
+attached, so this is equally safe if the app is ever run directly with `python app.py` instead.
+
 ## Assumptions and limitations
 
 - No accident dataset was provided. Part 3's classification task uses a documented proxy
   `high_risk` label derived from traffic-volume quartiles combined with severe/low-visibility
   weather, per the capstone instructions. This is for demonstrating the ML workflow only and
   is not a real accident-risk prediction.
+- Task 6.4-6.5's drift monitoring can only check prediction error for a live request whose
+  timestamp happens to match a real, already-observed row in the dataset; a genuinely new,
+  future timestamp has no ground truth to check against yet, mirroring how a real deployment
+  would need to wait for the true outcome to catch up. Its feature-drift checks use simple,
+  documented threshold rules (a mean z-score for continuous fields, a share-ratio for
+  categorical ones) sized for demonstrating the mechanism against a small test batch, not
+  statistically rigorous checks meant to run unattended against a large rolling production
+  window; see `monitoring/drift_monitor.py`'s docstring for the specific thresholds and their
+  known limitations (in particular, the z-score check is oversensitive on zero-inflated
+  fields like `snow_1h`).

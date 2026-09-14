@@ -1,0 +1,23 @@
+artifact_path: file:///C:/Users/user/OneDrive/Documents/AI%20ML%20and%20DS%20Course%20NUS/Capstone%20Project/smart-city-traffic-capstone/part3_machine_learning/mlflow/artifacts/models/m-5e15a765aef341c386e7ff885779a148/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.skops
+    predict_fn: predict
+    python_version: 3.13.9
+  sklearn:
+    code: null
+    pickled_model: model.skops
+    serialization_format: skops
+    sklearn_version: 1.9.1
+    skops_trusted_types: null
+mlflow_version: 3.16.0
+model_id: m-5e15a765aef341c386e7ff885779a148
+model_size_bytes: 32963411
+model_uuid: m-5e15a765aef341c386e7ff885779a148
+prompts: null
+run_id: 4af7343f0c0945e3a1841e4a4abce718
+utc_time_created: '2026-09-14 08:41:48.215640'
