@@ -1,0 +1,25 @@
+day_type,weather_condition,recommended_start,recommended_end,predicted_volume,pct_below_peak,is_genuine_trough
+weekday,any (typical mix),10:00 AM,11:00 AM,4511.0,30.1,True
+weekday,Clear,10:00 AM,11:00 AM,4480.5,31.0,True
+weekday,Clouds,10:00 AM,11:00 AM,4554.4,30.5,True
+weekday,Drizzle,10:00 AM,11:00 AM,4475.3,32.2,True
+weekday,Fog,10:00 AM,11:00 AM,4511.5,30.8,True
+weekday,Haze,10:00 AM,11:00 AM,4552.8,29.9,True
+weekday,Mist,10:00 AM,11:00 AM,4531.8,30.2,True
+weekday,Rain,10:00 AM,11:00 AM,4520.3,28.3,True
+weekday,Smoke,10:00 AM,11:00 AM,4649.7,28.1,True
+weekday,Snow,10:00 AM,11:00 AM,4334.1,25.6,True
+weekday,Squall,10:00 AM,11:00 AM,4493.9,30.6,True
+weekday,Thunderstorm,10:00 AM,11:00 AM,4588.9,29.5,True
+weekend,any (typical mix),7:00 AM,8:00 AM,2123.0,55.1,False
+weekend,Clear,7:00 AM,8:00 AM,2159.4,54.7,False
+weekend,Clouds,7:00 AM,8:00 AM,2167.0,53.9,False
+weekend,Drizzle,7:00 AM,8:00 AM,2164.8,53.9,False
+weekend,Fog,7:00 AM,8:00 AM,2118.0,55.7,False
+weekend,Haze,7:00 AM,8:00 AM,2013.8,57.2,False
+weekend,Mist,7:00 AM,8:00 AM,2019.3,57.3,False
+weekend,Rain,7:00 AM,8:00 AM,2150.4,55.4,False
+weekend,Smoke,7:00 AM,8:00 AM,1910.0,60.3,False
+weekend,Snow,7:00 AM,8:00 AM,1740.9,62.0,False
+weekend,Squall,7:00 AM,8:00 AM,2166.7,53.6,False
+weekend,Thunderstorm,7:00 AM,8:00 AM,2073.5,53.7,False
