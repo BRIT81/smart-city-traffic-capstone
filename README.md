@@ -34,44 +34,44 @@ smart-city-traffic-capstone/
 │   ├── dev_notebook.ipynb       # interactive prototyping/verification notebook
 │   ├── part2_report.docx        # Task 5: 1-2 page methodology and findings report, + .pdf
 │   └── pipeline.log             # shared log file for every Part 2 script
-└── part3_machine_learning/
-    ├── data_prep.py                      # shared Part 3 data prep: reuses Part 2's pipeline
-    │                                      # and feature engineering, adds the proxy high_risk
-    │                                      # label and remaining Task 1 feature-set requirements
-    ├── logging_config.py                 # Part 3's own shared logging setup (separate from
-    │                                      # part2_python's, see "Logging configuration" below)
-    ├── supervised_models.py              # Task 1: classification and regression models
-    ├── unsupervised_models.py            # Task 2: K-means clustering, association rule mining
-    ├── deep_learning_explainability.py   # Task 3: LSTM demand prediction with SHAP
-    ├── mlflow_tracking.py                # Task 4: MLflow experiment tracking, Tasks 1-3
-    ├── recommendation_system/
-    │   ├── traffic_recommendation.py     # Task 5: traffic recommendation system
-    │   └── task5_recommendations.csv     # generated recommendations, every day-type/weather combination
-    ├── model_versioning.py               # Task 6.1-6.2: model version history (v1/v2/v3) logged
-    │                                      # to MLflow, production version registered in the
-    │                                      # MLflow Model Registry
-    ├── deployment/
-    │   ├── app.py                        # Task 6.3: FastAPI service serving the MLflow
-    │   │                                  # registry's "production"-aliased model
-    │   └── prediction_log.csv            # every request/prediction served, written at runtime
-    ├── monitoring/
-    │   └── drift_monitor.py              # Task 6.4-6.5: feature-drift and prediction-error
-    │                                      # checks against prediction_log.csv, console/log
-    │                                      # PASS/ALERT report
-    ├── notebooks/
-    │   └── dev_notebook.ipynb            # interactive prototyping/verification, every task above
-    ├── models/                           # saved joblib/.keras model artifacts, Tasks 1-3
-    ├── figures/                          # saved SHAP plots, Task 3
-    ├── mlflow/                           # MLflow SQLite backend, logged run artifacts and the
-    │                                      # Model Registry, Tasks 4 and 6
-    ├── task2_cluster_profile.csv         # Task 2 output
-    ├── task2_congestion_rules.csv        # Task 2 output
-    ├── task3_hour_shap_effect.csv        # Task 3 output
-    ├── part3_bias_fairness_governance_report.docx  # Task 7: bias/fairness report and a
-    │                                      # governance and sustainability discussion, + .pdf
-    ├── part3_final_capstone_report.docx  # Final capstone report: methodology and findings
-    │                                      # across every task in Parts 1-3, + .pdf
-    └── pipeline.log                      # shared log file for every Part 3 script
+├── part3_machine_learning/
+│   ├── data_prep.py                      # shared Part 3 data prep: reuses Part 2's pipeline
+│   │                                      # and feature engineering, adds the proxy high_risk
+│   │                                      # label and remaining Task 1 feature-set requirements
+│   ├── logging_config.py                 # Part 3's own shared logging setup (separate from
+│   │                                      # part2_python's, see "Logging configuration" below)
+│   ├── supervised_models.py              # Task 1: classification and regression models
+│   ├── unsupervised_models.py            # Task 2: K-means clustering, association rule mining
+│   ├── deep_learning_explainability.py   # Task 3: LSTM demand prediction with SHAP
+│   ├── mlflow_tracking.py                # Task 4: MLflow experiment tracking, Tasks 1-3
+│   ├── recommendation_system/
+│   │   ├── traffic_recommendation.py     # Task 5: traffic recommendation system
+│   │   └── task5_recommendations.csv     # generated recommendations, every day-type/weather combination
+│   ├── model_versioning.py               # Task 6.1-6.2: model version history (v1/v2/v3) logged
+│   │                                      # to MLflow, production version registered in the
+│   │                                      # MLflow Model Registry
+│   ├── deployment/
+│   │   ├── app.py                        # Task 6.3: FastAPI service serving the MLflow
+│   │   │                                  # registry's "production"-aliased model
+│   │   └── prediction_log.csv            # every request/prediction served, written at runtime
+│   ├── monitoring/
+│   │   └── drift_monitor.py              # Task 6.4-6.5: feature-drift and prediction-error
+│   │                                      # checks against prediction_log.csv, console/log
+│   │                                      # PASS/ALERT report
+│   ├── notebooks/
+│   │   └── dev_notebook.ipynb            # interactive prototyping/verification, every task above
+│   ├── models/                           # saved joblib/.keras model artifacts, Tasks 1-3
+│   ├── figures/                          # saved SHAP plots, Task 3
+│   ├── mlflow/                           # MLflow SQLite backend, logged run artifacts and the
+│   │                                      # Model Registry, Tasks 4 and 6
+│   ├── task2_cluster_profile.csv         # Task 2 output
+│   ├── task2_congestion_rules.csv        # Task 2 output
+│   ├── task3_hour_shap_effect.csv        # Task 3 output
+│   ├── part3_bias_fairness_governance_report.docx  # Task 7: bias/fairness report and a
+│   │                                      # governance and sustainability discussion, + .pdf
+│   └── pipeline.log                      # shared log file for every Part 3 script
+└── part3_final_capstone_report.docx      # Final capstone report: methodology and findings
+                                           # across every task in Parts 1-3, + .pdf
 ```
 
 Each part builds on the previous one: Part 2 reuses the cleaning/insights from Part 1, and
@@ -87,7 +87,7 @@ Part 3 reuses the engineered features and pipeline from Part 2.
       deployment simulation, drift monitoring and alerting, and a bias/fairness/governance
       report for Task 7). A final capstone report covering methodology and findings across
       every task in Parts 1-3 is at
-      `part3_machine_learning/part3_final_capstone_report.docx`.
+      `part3_final_capstone_report.docx`.
 
 ## Tools and technologies
 
@@ -237,7 +237,7 @@ risks, and how error is distributed unevenly across conditions and time periods)
 a governance and sustainability discussion, in
 `part3_machine_learning/part3_bias_fairness_governance_report.docx`. A final capstone report
 tying together the methodology and findings from every task across all three parts is
-`part3_machine_learning/part3_final_capstone_report.docx`. A PDF of each is included alongside
+`part3_final_capstone_report.docx`, at the repository root. A PDF of each is included alongside
 the `.docx`.
 
 ## Logging configuration
