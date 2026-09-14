@@ -33,12 +33,29 @@ smart-city-traffic-capstone/
 │   ├── part2_report.docx        # Task 5: 1-2 page methodology and findings report
 │   └── pipeline.log             # shared log file for every Part 2 script
 └── part3_machine_learning/
-    ├── notebooks/
-    ├── models/
-    ├── mlflow/
-    ├── deployment/
+    ├── data_prep.py                      # shared Part 3 data prep: reuses Part 2's pipeline
+    │                                      # and feature engineering, adds the proxy high_risk
+    │                                      # label and remaining Task 1 feature-set requirements
+    ├── logging_config.py                 # Part 3's own shared logging setup (separate from
+    │                                      # part2_python's, see "Logging configuration" below)
+    ├── supervised_models.py              # Task 1: classification and regression models
+    ├── unsupervised_models.py            # Task 2: K-means clustering, association rule mining
+    ├── deep_learning_explainability.py   # Task 3: LSTM demand prediction with SHAP
+    ├── mlflow_tracking.py                # Task 4: MLflow experiment tracking, Tasks 1-3
     ├── recommendation_system/
-    └── monitoring/
+    │   ├── traffic_recommendation.py     # Task 5: traffic recommendation system
+    │   └── task5_recommendations.csv     # generated recommendations, every day-type/weather combination
+    ├── deployment/                       # Task 6: deployment simulation (FastAPI/Flask mock)
+    ├── monitoring/                       # Task 6: drift monitoring
+    ├── notebooks/
+    │   └── dev_notebook.ipynb            # interactive prototyping/verification, every task above
+    ├── models/                           # saved joblib/.keras model artifacts, Tasks 1-3
+    ├── figures/                          # saved SHAP plots, Task 3
+    ├── mlflow/                           # MLflow SQLite backend and logged run artifacts, Task 4
+    ├── task2_cluster_profile.csv         # Task 2 output
+    ├── task2_congestion_rules.csv        # Task 2 output
+    ├── task3_hour_shap_effect.csv        # Task 3 output
+    └── pipeline.log                      # shared log file for every Part 3 script
 ```
 
 Each part builds on the previous one: Part 2 reuses the cleaning/insights from Part 1, and
@@ -48,7 +65,10 @@ Part 3 reuses the engineered features and pipeline from Part 2.
 
 - [x] Part 1 – Data Analytics (SQL, statistics, probability, Power BI)
 - [x] Part 2 – Python (pipeline, feature engineering, visualisation, CLI app)
-- [ ] Part 3 – Machine Learning & AI (models, MLOps, recommendation system)
+- [ ] Part 3 – Machine Learning & AI (models, MLOps, recommendation system) — Tasks 1-5 of 7
+      complete (supervised and unsupervised models, deep learning with explainability, MLflow
+      tracking, recommendation system); Tasks 6-7 (deployment/monitoring simulation,
+      responsible and sustainable AI) pending
 
 ## Tools and technologies
 
@@ -110,6 +130,45 @@ python traffic_cli.py recommend --top 5
 verification of every function before it was consolidated into its final script. Task 5's
 1-2 page methodology and findings report is `part2_python/part2_report.docx`.
 
+### Part 3 — Machine Learning & AI (models, MLOps, recommendation system)
+
+All scripts live in `part3_machine_learning/` and share one dataset, built by `data_prep.py`
+(which reuses Part 2's cleaning pipeline and feature engineering, then adds Part 3's proxy
+`high_risk` label, since no real accident dataset was provided) and one log file
+(`part3_machine_learning/pipeline.log`). Each script rebuilds the dataset from scratch and is
+independently runnable:
+
+```
+cd part3_machine_learning
+python supervised_models.py             # Task 1: classification and regression models
+python unsupervised_models.py           # Task 2: K-means clustering, association rule mining
+python deep_learning_explainability.py  # Task 3: LSTM demand prediction with SHAP (~1-2 min)
+python mlflow_tracking.py               # Task 4: logs Tasks 1-3's models to MLflow
+```
+
+Task 5, the traffic recommendation system, lives in its own subfolder:
+
+```
+cd part3_machine_learning/recommendation_system
+python traffic_recommendation.py
+```
+
+Tasks 3 to 5 reload their dependencies (the relevant saved model from `models/`) from disk
+rather than retraining, so any script can be run on its own, provided `models/` already
+contains the joblib/.keras files a later task depends on, which is already the case in this
+repository.
+
+To browse Task 4's MLflow experiment visually:
+
+```
+cd part3_machine_learning
+mlflow ui --backend-store-uri "sqlite:///mlflow/tracking.db"
+```
+
+`part3_machine_learning/notebooks/dev_notebook.ipynb` contains the interactive, cell-by-cell
+development and verification of every function above before it was consolidated into its
+final script.
+
 ## Logging configuration
 
 Every module in `part2_python/` (`pipeline.py`, `feature_engineering.py`,
@@ -151,6 +210,13 @@ No `print()` statements are used anywhere in Part 2 for internal progress report
 `print()` calls are in the CLI app, and only for its actual answer to a query (the requested
 traffic/weather record, or a ranked list of hours), since that is end-user-facing output, not
 a status message.
+
+**Part 3** (`part3_machine_learning/`) mirrors this exact pattern independently, with its own
+`logging_config.py` writing to its own `part3_machine_learning/pipeline.log`. Since
+`data_prep.py` inserts `part2_python` onto `sys.path` (to reuse `pipeline.py` and
+`feature_engineering.py`), every Part 3 script's `__main__` block re-asserts its own directory
+at the front of `sys.path` immediately before importing its `logging_config`, so that bare
+import resolves to Part 3's own module and log file rather than Part 2's same-named one.
 
 ## Assumptions and limitations
 

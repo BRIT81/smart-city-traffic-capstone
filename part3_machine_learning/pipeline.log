@@ -1,0 +1,276 @@
+2026-09-14 16:09:55 | INFO     | __main__ | Starting Task 1: Supervised Machine Learning Models.
+2026-09-14 16:09:55 | INFO     | data_prep | Preparing Part 3 dataset from Part 2's pipeline and feature engineering.
+2026-09-14 16:09:55 | INFO     | pipeline | Loading data from C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\data\Metro_Interstate_Traffic_Volume.csv
+2026-09-14 16:09:55 | INFO     | pipeline | Loaded 48204 rows and 9 columns
+2026-09-14 16:09:55 | INFO     | pipeline | Schema validation passed: all 9 expected columns are present.
+2026-09-14 16:09:55 | INFO     | pipeline | 'holiday' already parsed as missing (NaN) for 48143 non-holiday rows (pandas recognised the source CSV's literal 'None' text automatically).
+2026-09-14 16:09:55 | WARNING  | pipeline | Standardised casing to lowercase in 1730 rows of 'weather_description' (merging case-variant duplicates such as 'Sky is Clear' / 'sky is clear').
+2026-09-14 16:09:55 | INFO     | pipeline | 'weather_description' now has 37 unique values (was 38 before standardisation).
+2026-09-14 16:09:55 | INFO     | pipeline | All 48204 values in 'date_time' parsed successfully as datetimes (was dtype 'object').
+2026-09-14 16:09:55 | INFO     | pipeline | 'date_time' range: 2012-10-02 09:00:00 to 2018-09-30 23:00:00.
+2026-09-14 16:09:55 | WARNING  | pipeline | Removed 17 exact duplicate rows.
+2026-09-14 16:09:55 | WARNING  | pipeline | Collapsed 5430 duplicate-timestamp hours (7612 rows removed) down to one row per hour; 0 of these hours had inconsistent traffic_volume across duplicates.
+2026-09-14 16:09:56 | WARNING  | pipeline | Found 10 rows with physically impossible 'temp' readings (<= 0 Kelvin).
+2026-09-14 16:09:56 | WARNING  | pipeline | Found 1 rows with physically implausible 'rain_1h' readings (> 1000mm/hour): [9831.3]
+2026-09-14 16:09:56 | WARNING  | pipeline | Imputed 4 missing 'temp' value(s) in month 1 using that month's median (265.48).
+2026-09-14 16:09:56 | WARNING  | pipeline | Imputed 6 missing 'temp' value(s) in month 2 using that month's median (265.89).
+2026-09-14 16:09:56 | WARNING  | pipeline | Imputed 1 missing 'rain_1h' value(s) in month 7 using that month's median (0.00).
+2026-09-14 16:09:56 | INFO     | pipeline | Pipeline completed successfully. Final shape: 40575 rows, 9 columns.
+2026-09-14 16:09:56 | INFO     | feature_engineering | Feature engineering started. Input shape: 40575 rows, 9 columns.
+2026-09-14 16:09:56 | INFO     | feature_engineering | Added time features: hour, day_of_week, is_weekend, hour_sin, hour_cos.
+2026-09-14 16:09:56 | INFO     | feature_engineering | One-hot encoded 'weather_main' into 11 columns (prefix 'wx_').
+2026-09-14 16:09:56 | INFO     | feature_engineering | Added 'is_severe_weather' indicator (['Thunderstorm', 'Squall']); 454 of 40575 rows flagged.
+2026-09-14 16:09:56 | DEBUG    | feature_engineering | 'temp' scaling parameters: mean=281.3823, std=13.0939.
+2026-09-14 16:09:56 | DEBUG    | feature_engineering | 'traffic_volume' scaling parameters: mean=3290.6505, std=1984.7729.
+2026-09-14 16:09:56 | INFO     | feature_engineering | Created scaled versions of: ['temp', 'traffic_volume'].
+2026-09-14 16:09:56 | DEBUG    | feature_engineering | Congestion category thresholds for 'traffic_volume': Q1=1248.50, Q3=4952.00.
+2026-09-14 16:09:56 | INFO     | feature_engineering | Created 'congestion_category' (Low <= 1248.50, Medium, High > 4952.00): {'Medium': 20289, 'Low': 10144, 'High': 10142}
+2026-09-14 16:09:56 | INFO     | feature_engineering | Feature engineering completed. Output shape: 40575 rows, 29 columns.
+2026-09-14 16:09:56 | INFO     | data_prep | Added 'is_holiday' flag; 53 of 40575 rows flagged as a holiday.
+2026-09-14 16:09:56 | INFO     | data_prep | Added cyclical day-of-week encoding: dow_sin, dow_cos.
+2026-09-14 16:09:56 | INFO     | data_prep | Added 'is_low_visibility' flag (['Fog', 'Mist', 'Haze', 'Smoke']); 4051 of 40575 rows flagged.
+2026-09-14 16:09:56 | INFO     | data_prep | Created 'risk_congestion_category' (Low <= 1248.50, Medium <= 3427.00, High <= 4952.00, else Severe): {'High': 10145, 'Medium': 10144, 'Low': 10144, 'Severe': 10142}
+2026-09-14 16:09:56 | INFO     | data_prep | Created proxy 'high_risk' label (High/Severe congestion AND severe/low-visibility weather): 1926 of 40575 rows flagged (4.75%).
+2026-09-14 16:09:56 | INFO     | data_prep | Part 3 dataset ready. Final shape: 40575 rows, 35 columns.
+2026-09-14 16:09:56 | INFO     | __main__ | Chronological split at 2017-10-26 18:00:00: train=32460 rows (2012-10-02 09:00:00 to 2017-10-26 17:00:00), test=8115 rows (2017-10-26 18:00:00 to 2018-09-30 23:00:00).
+2026-09-14 16:09:56 | INFO     | __main__ | Feature matrix built: 23 features, 32460 train rows, 8115 test rows.
+2026-09-14 16:09:56 | INFO     | __main__ | high_risk classifier 'Logistic Regression': accuracy=0.9784, precision=0.7136, recall=1.0000, f1=0.8329, roc_auc=0.9978
+2026-09-14 16:09:57 | INFO     | __main__ | high_risk classifier 'Random Forest': accuracy=0.9890, precision=0.8305, recall=1.0000, f1=0.9074, roc_auc=0.9988
+2026-09-14 16:09:57 | INFO     | __main__ | traffic_volume regressor 'Linear Regression': mae=828.2493, r2=0.7089
+2026-09-14 16:09:59 | INFO     | __main__ | traffic_volume regressor 'Random Forest': mae=268.7806, r2=0.9411
+2026-09-14 16:09:59 | DEBUG    | __main__ | Top 8 feature importances for high_risk classifier:
+is_low_visibility    0.3720
+hour_cos             0.1271
+wx_Mist              0.1213
+wx_Clouds            0.0886
+wx_Clear             0.0621
+wx_Haze              0.0551
+is_severe_weather    0.0408
+wx_Thunderstorm      0.0357
+2026-09-14 16:09:59 | DEBUG    | __main__ | Top 8 feature importances for traffic_volume regressor:
+hour_cos       0.6917
+hour_sin       0.1814
+dow_sin        0.0531
+is_weekend     0.0499
+temp_scaled    0.0129
+dow_cos        0.0064
+clouds_all     0.0023
+wx_Clouds      0.0007
+2026-09-14 16:09:59 | INFO     | __main__ | Saved classifier 'Logistic Regression' to C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\part3_machine_learning\models\logistic_regression_high_risk.joblib
+2026-09-14 16:09:59 | INFO     | __main__ | Saved classifier 'Random Forest' to C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\part3_machine_learning\models\random_forest_high_risk.joblib
+2026-09-14 16:09:59 | INFO     | __main__ | Saved regressor 'Linear Regression' to C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\part3_machine_learning\models\linear_regression_traffic_volume.joblib
+2026-09-14 16:09:59 | INFO     | __main__ | Saved regressor 'Random Forest' to C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\part3_machine_learning\models\random_forest_traffic_volume.joblib
+2026-09-14 16:09:59 | INFO     | __main__ | Task 1 complete.
+2026-09-14 16:11:14 | INFO     | __main__ | Starting Task 2: Unsupervised Machine Learning.
+2026-09-14 16:11:14 | INFO     | data_prep | Preparing Part 3 dataset from Part 2's pipeline and feature engineering.
+2026-09-14 16:11:14 | INFO     | pipeline | Loading data from C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\data\Metro_Interstate_Traffic_Volume.csv
+2026-09-14 16:11:14 | INFO     | pipeline | Loaded 48204 rows and 9 columns
+2026-09-14 16:11:14 | INFO     | pipeline | Schema validation passed: all 9 expected columns are present.
+2026-09-14 16:11:14 | INFO     | pipeline | 'holiday' already parsed as missing (NaN) for 48143 non-holiday rows (pandas recognised the source CSV's literal 'None' text automatically).
+2026-09-14 16:11:14 | WARNING  | pipeline | Standardised casing to lowercase in 1730 rows of 'weather_description' (merging case-variant duplicates such as 'Sky is Clear' / 'sky is clear').
+2026-09-14 16:11:14 | INFO     | pipeline | 'weather_description' now has 37 unique values (was 38 before standardisation).
+2026-09-14 16:11:14 | INFO     | pipeline | All 48204 values in 'date_time' parsed successfully as datetimes (was dtype 'object').
+2026-09-14 16:11:14 | INFO     | pipeline | 'date_time' range: 2012-10-02 09:00:00 to 2018-09-30 23:00:00.
+2026-09-14 16:11:15 | WARNING  | pipeline | Removed 17 exact duplicate rows.
+2026-09-14 16:11:15 | WARNING  | pipeline | Collapsed 5430 duplicate-timestamp hours (7612 rows removed) down to one row per hour; 0 of these hours had inconsistent traffic_volume across duplicates.
+2026-09-14 16:11:15 | WARNING  | pipeline | Found 10 rows with physically impossible 'temp' readings (<= 0 Kelvin).
+2026-09-14 16:11:15 | WARNING  | pipeline | Found 1 rows with physically implausible 'rain_1h' readings (> 1000mm/hour): [9831.3]
+2026-09-14 16:11:15 | WARNING  | pipeline | Imputed 4 missing 'temp' value(s) in month 1 using that month's median (265.48).
+2026-09-14 16:11:15 | WARNING  | pipeline | Imputed 6 missing 'temp' value(s) in month 2 using that month's median (265.89).
+2026-09-14 16:11:15 | WARNING  | pipeline | Imputed 1 missing 'rain_1h' value(s) in month 7 using that month's median (0.00).
+2026-09-14 16:11:15 | INFO     | pipeline | Pipeline completed successfully. Final shape: 40575 rows, 9 columns.
+2026-09-14 16:11:15 | INFO     | feature_engineering | Feature engineering started. Input shape: 40575 rows, 9 columns.
+2026-09-14 16:11:15 | INFO     | feature_engineering | Added time features: hour, day_of_week, is_weekend, hour_sin, hour_cos.
+2026-09-14 16:11:15 | INFO     | feature_engineering | One-hot encoded 'weather_main' into 11 columns (prefix 'wx_').
+2026-09-14 16:11:15 | INFO     | feature_engineering | Added 'is_severe_weather' indicator (['Thunderstorm', 'Squall']); 454 of 40575 rows flagged.
+2026-09-14 16:11:15 | DEBUG    | feature_engineering | 'temp' scaling parameters: mean=281.3823, std=13.0939.
+2026-09-14 16:11:15 | DEBUG    | feature_engineering | 'traffic_volume' scaling parameters: mean=3290.6505, std=1984.7729.
+2026-09-14 16:11:15 | INFO     | feature_engineering | Created scaled versions of: ['temp', 'traffic_volume'].
+2026-09-14 16:11:15 | DEBUG    | feature_engineering | Congestion category thresholds for 'traffic_volume': Q1=1248.50, Q3=4952.00.
+2026-09-14 16:11:15 | INFO     | feature_engineering | Created 'congestion_category' (Low <= 1248.50, Medium, High > 4952.00): {'Medium': 20289, 'Low': 10144, 'High': 10142}
+2026-09-14 16:11:15 | INFO     | feature_engineering | Feature engineering completed. Output shape: 40575 rows, 29 columns.
+2026-09-14 16:11:15 | INFO     | data_prep | Added 'is_holiday' flag; 53 of 40575 rows flagged as a holiday.
+2026-09-14 16:11:15 | INFO     | data_prep | Added cyclical day-of-week encoding: dow_sin, dow_cos.
+2026-09-14 16:11:15 | INFO     | data_prep | Added 'is_low_visibility' flag (['Fog', 'Mist', 'Haze', 'Smoke']); 4051 of 40575 rows flagged.
+2026-09-14 16:11:15 | INFO     | data_prep | Created 'risk_congestion_category' (Low <= 1248.50, Medium <= 3427.00, High <= 4952.00, else Severe): {'High': 10145, 'Medium': 10144, 'Low': 10144, 'Severe': 10142}
+2026-09-14 16:11:15 | INFO     | data_prep | Created proxy 'high_risk' label (High/Severe congestion AND severe/low-visibility weather): 1926 of 40575 rows flagged (4.75%).
+2026-09-14 16:11:15 | INFO     | data_prep | Part 3 dataset ready. Final shape: 40575 rows, 35 columns.
+2026-09-14 16:11:15 | INFO     | __main__ | Added 'weather_severity' (0=Clear to 5=Severe storms).
+2026-09-14 16:11:18 | DEBUG    | __main__ | k=2: inertia=101257.2, silhouette=0.3612
+2026-09-14 16:11:19 | DEBUG    | __main__ | k=3: inertia=79098.8, silhouette=0.3288
+2026-09-14 16:11:20 | DEBUG    | __main__ | k=4: inertia=64743.7, silhouette=0.3354
+2026-09-14 16:11:20 | DEBUG    | __main__ | k=5: inertia=52900.0, silhouette=0.3331
+2026-09-14 16:11:21 | DEBUG    | __main__ | k=6: inertia=42626.2, silhouette=0.3563
+2026-09-14 16:11:21 | DEBUG    | __main__ | k=7: inertia=37242.7, silhouette=0.3672
+2026-09-14 16:11:22 | DEBUG    | __main__ | k=8: inertia=33477.5, silhouette=0.3579
+2026-09-14 16:11:22 | INFO     | __main__ | K-means fitted with k=6.
+         n_rows  avg_hour  avg_weather_severity most_common_weather  pct_weekend  avg_traffic_volume  pct_of_data
+cluster                                                                                                          
+0          8617      3.01                  0.65               Clear         0.35              878.48        21.24
+1          7815     15.47                  0.71              Clouds         0.28             5131.91        19.26
+2          8460      9.20                  0.77              Clouds         0.23             4814.45        20.85
+3          6847     20.84                  0.58              Clouds         0.30             2579.85        16.87
+4          4383     12.44                  3.31                Rain         0.23             4834.19        10.80
+5          4453     10.18                  3.24                Rain         0.30             1405.70        10.97
+2026-09-14 16:11:22 | INFO     | __main__ | Discretised time_of_day, weather_bucket, weekday_type, congestion_level for association rule mining.
+2026-09-14 16:11:22 | INFO     | __main__ | Apriori: 271 frequent itemsets, 1002 rules (min_support=0.005, lift>=1.0).
+2026-09-14 16:11:22 | INFO     | __main__ | 116 rules predict a congestion_level, top rule: {'antecedents': 'time_of_day_Night, weather_bucket_Clouds, weekday_type_Weekend', 'consequents': 'congestion_level_Low', 'antecedent support': 0.018459642637091805, 'consequent support': 0.25000616142945165, 'support': 0.01678373382624769, 'confidence': 0.9092122830440589, 'lift': 3.636759501627828, 'representativity': 1.0, 'leverage': 0.012168709429188927, 'conviction': 8.260961545431494, 'zhangs_metric': 0.7386654339917554, 'jaccard': 0.06668625146886016, 'certainty': 0.8789487162601521, 'kulczynski': 0.48817278190057833}
+2026-09-14 16:11:22 | INFO     | __main__ | Saved KMeans model and scaler to C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\part3_machine_learning\models
+2026-09-14 16:11:22 | INFO     | __main__ | Saved cluster profile to C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\part3_machine_learning\task2_cluster_profile.csv and congestion rules to C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\part3_machine_learning\task2_congestion_rules.csv
+2026-09-14 16:11:22 | INFO     | __main__ | Task 2 complete.
+2026-09-14 16:13:42 | INFO     | __main__ | Starting Task 3: Deep Learning with Explainability.
+2026-09-14 16:13:42 | INFO     | data_prep | Preparing Part 3 dataset from Part 2's pipeline and feature engineering.
+2026-09-14 16:13:42 | INFO     | pipeline | Loading data from C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\data\Metro_Interstate_Traffic_Volume.csv
+2026-09-14 16:13:42 | INFO     | pipeline | Loaded 48204 rows and 9 columns
+2026-09-14 16:13:42 | INFO     | pipeline | Schema validation passed: all 9 expected columns are present.
+2026-09-14 16:13:42 | INFO     | pipeline | 'holiday' already parsed as missing (NaN) for 48143 non-holiday rows (pandas recognised the source CSV's literal 'None' text automatically).
+2026-09-14 16:13:42 | WARNING  | pipeline | Standardised casing to lowercase in 1730 rows of 'weather_description' (merging case-variant duplicates such as 'Sky is Clear' / 'sky is clear').
+2026-09-14 16:13:42 | INFO     | pipeline | 'weather_description' now has 37 unique values (was 38 before standardisation).
+2026-09-14 16:13:42 | INFO     | pipeline | All 48204 values in 'date_time' parsed successfully as datetimes (was dtype 'object').
+2026-09-14 16:13:42 | INFO     | pipeline | 'date_time' range: 2012-10-02 09:00:00 to 2018-09-30 23:00:00.
+2026-09-14 16:13:42 | WARNING  | pipeline | Removed 17 exact duplicate rows.
+2026-09-14 16:13:43 | WARNING  | pipeline | Collapsed 5430 duplicate-timestamp hours (7612 rows removed) down to one row per hour; 0 of these hours had inconsistent traffic_volume across duplicates.
+2026-09-14 16:13:43 | WARNING  | pipeline | Found 10 rows with physically impossible 'temp' readings (<= 0 Kelvin).
+2026-09-14 16:13:43 | WARNING  | pipeline | Found 1 rows with physically implausible 'rain_1h' readings (> 1000mm/hour): [9831.3]
+2026-09-14 16:13:43 | WARNING  | pipeline | Imputed 4 missing 'temp' value(s) in month 1 using that month's median (265.48).
+2026-09-14 16:13:43 | WARNING  | pipeline | Imputed 6 missing 'temp' value(s) in month 2 using that month's median (265.89).
+2026-09-14 16:13:43 | WARNING  | pipeline | Imputed 1 missing 'rain_1h' value(s) in month 7 using that month's median (0.00).
+2026-09-14 16:13:43 | INFO     | pipeline | Pipeline completed successfully. Final shape: 40575 rows, 9 columns.
+2026-09-14 16:13:43 | INFO     | feature_engineering | Feature engineering started. Input shape: 40575 rows, 9 columns.
+2026-09-14 16:13:43 | INFO     | feature_engineering | Added time features: hour, day_of_week, is_weekend, hour_sin, hour_cos.
+2026-09-14 16:13:43 | INFO     | feature_engineering | One-hot encoded 'weather_main' into 11 columns (prefix 'wx_').
+2026-09-14 16:13:43 | INFO     | feature_engineering | Added 'is_severe_weather' indicator (['Thunderstorm', 'Squall']); 454 of 40575 rows flagged.
+2026-09-14 16:13:43 | DEBUG    | feature_engineering | 'temp' scaling parameters: mean=281.3823, std=13.0939.
+2026-09-14 16:13:43 | DEBUG    | feature_engineering | 'traffic_volume' scaling parameters: mean=3290.6505, std=1984.7729.
+2026-09-14 16:13:43 | INFO     | feature_engineering | Created scaled versions of: ['temp', 'traffic_volume'].
+2026-09-14 16:13:43 | DEBUG    | feature_engineering | Congestion category thresholds for 'traffic_volume': Q1=1248.50, Q3=4952.00.
+2026-09-14 16:13:43 | INFO     | feature_engineering | Created 'congestion_category' (Low <= 1248.50, Medium, High > 4952.00): {'Medium': 20289, 'Low': 10144, 'High': 10142}
+2026-09-14 16:13:43 | INFO     | feature_engineering | Feature engineering completed. Output shape: 40575 rows, 29 columns.
+2026-09-14 16:13:43 | INFO     | data_prep | Added 'is_holiday' flag; 53 of 40575 rows flagged as a holiday.
+2026-09-14 16:13:43 | INFO     | data_prep | Added cyclical day-of-week encoding: dow_sin, dow_cos.
+2026-09-14 16:13:43 | INFO     | data_prep | Added 'is_low_visibility' flag (['Fog', 'Mist', 'Haze', 'Smoke']); 4051 of 40575 rows flagged.
+2026-09-14 16:13:43 | INFO     | data_prep | Created 'risk_congestion_category' (Low <= 1248.50, Medium <= 3427.00, High <= 4952.00, else Severe): {'High': 10145, 'Medium': 10144, 'Low': 10144, 'Severe': 10142}
+2026-09-14 16:13:43 | INFO     | data_prep | Created proxy 'high_risk' label (High/Severe congestion AND severe/low-visibility weather): 1926 of 40575 rows flagged (4.75%).
+2026-09-14 16:13:43 | INFO     | data_prep | Part 3 dataset ready. Final shape: 40575 rows, 35 columns.
+2026-09-14 16:13:43 | INFO     | __main__ | Built 28871 gap-respecting 24-hour windows out of 40551 candidates (71.2% valid).
+2026-09-14 16:13:43 | INFO     | __main__ | Chronological split at 2017-10-26 18:00:00: 21185 train windows, 7686 test windows.
+2026-09-14 16:13:43 | INFO     | __main__ | Scalers fit on training period only: traffic_volume mean=3285.9 std=1988.4, weather_severity mean=1.223 std=1.222
+2026-09-14 16:13:43 | WARNING  | tensorflow | TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+2026-09-14 16:14:29 | INFO     | __main__ | LSTM training stopped after 18 epochs. Final val_loss=0.0192, val_mae=0.0972.
+2026-09-14 16:14:30 | INFO     | __main__ | LSTM traffic_volume regressor: MAE=174.33, R2=0.9832
+2026-09-14 16:14:30 | DEBUG    | h5py._conv | Creating converter from 5 to 3
+2026-09-14 16:14:30 | INFO     | __main__ | Saved LSTM model and scalers to C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\part3_machine_learning\models
+2026-09-14 16:14:30 | INFO     | __main__ | Reloaded random forest regressor from C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\part3_machine_learning\models\random_forest_traffic_volume.joblib for SHAP explainability.
+2026-09-14 16:20:27 | INFO     | __main__ | Computed SHAP values: shape (8115, 23)
+2026-09-14 16:20:30 | INFO     | __main__ | Saved SHAP bar and beeswarm plots to C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\part3_machine_learning\figures
+2026-09-14 16:20:30 | INFO     | __main__ | Top 5 features by mean |SHAP value|:
+hour_cos       1570.1
+hour_sin        554.0
+is_weekend      205.0
+dow_sin         187.6
+temp_scaled      92.9
+2026-09-14 16:20:30 | INFO     | __main__ | Saved hour-by-hour SHAP time contribution to C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\part3_machine_learning\task3_hour_shap_effect.csv
+2026-09-14 16:20:30 | INFO     | __main__ | Task 3 complete.
+2026-09-14 16:21:38 | INFO     | __main__ | Starting Task 4: Advanced AI Technique — MLflow Experiment Tracking.
+2026-09-14 16:21:39 | INFO     | __main__ | MLflow tracking URI: sqlite:///C:/Users/user/OneDrive/Documents/AI ML and DS Course NUS/Capstone Project/smart-city-traffic-capstone/part3_machine_learning/mlflow/tracking.db, experiment: smart_city_traffic_capstone
+2026-09-14 16:21:39 | INFO     | data_prep | Preparing Part 3 dataset from Part 2's pipeline and feature engineering.
+2026-09-14 16:21:39 | INFO     | pipeline | Loading data from C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\data\Metro_Interstate_Traffic_Volume.csv
+2026-09-14 16:21:39 | INFO     | pipeline | Loaded 48204 rows and 9 columns
+2026-09-14 16:21:39 | INFO     | pipeline | Schema validation passed: all 9 expected columns are present.
+2026-09-14 16:21:39 | INFO     | pipeline | 'holiday' already parsed as missing (NaN) for 48143 non-holiday rows (pandas recognised the source CSV's literal 'None' text automatically).
+2026-09-14 16:21:39 | WARNING  | pipeline | Standardised casing to lowercase in 1730 rows of 'weather_description' (merging case-variant duplicates such as 'Sky is Clear' / 'sky is clear').
+2026-09-14 16:21:39 | INFO     | pipeline | 'weather_description' now has 37 unique values (was 38 before standardisation).
+2026-09-14 16:21:39 | INFO     | pipeline | All 48204 values in 'date_time' parsed successfully as datetimes (was dtype 'object').
+2026-09-14 16:21:39 | INFO     | pipeline | 'date_time' range: 2012-10-02 09:00:00 to 2018-09-30 23:00:00.
+2026-09-14 16:21:39 | WARNING  | pipeline | Removed 17 exact duplicate rows.
+2026-09-14 16:21:40 | WARNING  | pipeline | Collapsed 5430 duplicate-timestamp hours (7612 rows removed) down to one row per hour; 0 of these hours had inconsistent traffic_volume across duplicates.
+2026-09-14 16:21:40 | WARNING  | pipeline | Found 10 rows with physically impossible 'temp' readings (<= 0 Kelvin).
+2026-09-14 16:21:40 | WARNING  | pipeline | Found 1 rows with physically implausible 'rain_1h' readings (> 1000mm/hour): [9831.3]
+2026-09-14 16:21:40 | WARNING  | pipeline | Imputed 4 missing 'temp' value(s) in month 1 using that month's median (265.48).
+2026-09-14 16:21:40 | WARNING  | pipeline | Imputed 6 missing 'temp' value(s) in month 2 using that month's median (265.89).
+2026-09-14 16:21:40 | WARNING  | pipeline | Imputed 1 missing 'rain_1h' value(s) in month 7 using that month's median (0.00).
+2026-09-14 16:21:40 | INFO     | pipeline | Pipeline completed successfully. Final shape: 40575 rows, 9 columns.
+2026-09-14 16:21:40 | INFO     | feature_engineering | Feature engineering started. Input shape: 40575 rows, 9 columns.
+2026-09-14 16:21:40 | INFO     | feature_engineering | Added time features: hour, day_of_week, is_weekend, hour_sin, hour_cos.
+2026-09-14 16:21:40 | INFO     | feature_engineering | One-hot encoded 'weather_main' into 11 columns (prefix 'wx_').
+2026-09-14 16:21:40 | INFO     | feature_engineering | Added 'is_severe_weather' indicator (['Thunderstorm', 'Squall']); 454 of 40575 rows flagged.
+2026-09-14 16:21:40 | DEBUG    | feature_engineering | 'temp' scaling parameters: mean=281.3823, std=13.0939.
+2026-09-14 16:21:40 | DEBUG    | feature_engineering | 'traffic_volume' scaling parameters: mean=3290.6505, std=1984.7729.
+2026-09-14 16:21:40 | INFO     | feature_engineering | Created scaled versions of: ['temp', 'traffic_volume'].
+2026-09-14 16:21:40 | DEBUG    | feature_engineering | Congestion category thresholds for 'traffic_volume': Q1=1248.50, Q3=4952.00.
+2026-09-14 16:21:40 | INFO     | feature_engineering | Created 'congestion_category' (Low <= 1248.50, Medium, High > 4952.00): {'Medium': 20289, 'Low': 10144, 'High': 10142}
+2026-09-14 16:21:40 | INFO     | feature_engineering | Feature engineering completed. Output shape: 40575 rows, 29 columns.
+2026-09-14 16:21:40 | INFO     | data_prep | Added 'is_holiday' flag; 53 of 40575 rows flagged as a holiday.
+2026-09-14 16:21:40 | INFO     | data_prep | Added cyclical day-of-week encoding: dow_sin, dow_cos.
+2026-09-14 16:21:40 | INFO     | data_prep | Added 'is_low_visibility' flag (['Fog', 'Mist', 'Haze', 'Smoke']); 4051 of 40575 rows flagged.
+2026-09-14 16:21:40 | INFO     | data_prep | Created 'risk_congestion_category' (Low <= 1248.50, Medium <= 3427.00, High <= 4952.00, else Severe): {'High': 10145, 'Medium': 10144, 'Low': 10144, 'Severe': 10142}
+2026-09-14 16:21:40 | INFO     | data_prep | Created proxy 'high_risk' label (High/Severe congestion AND severe/low-visibility weather): 1926 of 40575 rows flagged (4.75%).
+2026-09-14 16:21:40 | INFO     | data_prep | Part 3 dataset ready. Final shape: 40575 rows, 35 columns.
+2026-09-14 16:21:40 | INFO     | supervised_models | Chronological split at 2017-10-26 18:00:00: train=32460 rows (2012-10-02 09:00:00 to 2017-10-26 17:00:00), test=8115 rows (2017-10-26 18:00:00 to 2018-09-30 23:00:00).
+2026-09-14 16:21:40 | INFO     | supervised_models | Feature matrix built: 23 features, 32460 train rows, 8115 test rows.
+2026-09-14 16:21:40 | DEBUG    | git.cmd | Popen(['git', 'version'], cwd=C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\part3_machine_learning, stdin=None, shell=False, universal_newlines=False)
+2026-09-14 16:21:41 | DEBUG    | git.cmd | Popen(['git', 'version'], cwd=C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\part3_machine_learning, stdin=None, shell=False, universal_newlines=False)
+2026-09-14 16:21:41 | DEBUG    | git.util | sys.platform='win32', git_executable='git'
+2026-09-14 16:21:41 | DEBUG    | git.cmd | Popen(['git', 'check-ignore', 'C:\\Users\\user\\OneDrive\\Documents\\AI ML and DS Course NUS\\Capstone Project\\smart-city-traffic-capstone\\part3_machine_learning'], cwd=C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone, stdin=None, shell=False, universal_newlines=False)
+2026-09-14 16:21:41 | DEBUG    | git.cmd | Popen(['git', 'cat-file', '--batch-check'], cwd=C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone, stdin=<valid stream>, shell=False, universal_newlines=False)
+2026-09-14 16:21:41 | DEBUG    | git.util | sys.platform='win32', git_executable='git'
+2026-09-14 16:21:41 | DEBUG    | git.util | sys.platform='win32', git_executable='git'
+2026-09-14 16:21:41 | DEBUG    | urllib3.connectionpool | Starting new HTTPS connection (1): config.mlflow-telemetry.io:443
+2026-09-14 16:21:41 | INFO     | __main__ | Logged MLflow run: Logistic Regression (high_risk)
+2026-09-14 16:21:41 | DEBUG    | urllib3.connectionpool | https://config.mlflow-telemetry.io:443 "GET /3.16.0.json HTTP/1.1" 200 308
+2026-09-14 16:21:41 | INFO     | __main__ | Logged MLflow run: Random Forest (high_risk)
+2026-09-14 16:21:41 | INFO     | __main__ | Logged MLflow run: Linear Regression (traffic_volume)
+2026-09-14 16:21:42 | INFO     | __main__ | Logged MLflow run: Random Forest (traffic_volume)
+2026-09-14 16:21:42 | INFO     | unsupervised_models | Added 'weather_severity' (0=Clear to 5=Severe storms).
+2026-09-14 16:21:42 | DEBUG    | urllib3.connectionpool | Starting new HTTPS connection (1): api.mlflow-telemetry.io:443
+2026-09-14 16:21:42 | INFO     | __main__ | Logged MLflow run: K-means Clustering (k=6)
+2026-09-14 16:21:42 | INFO     | unsupervised_models | Discretised time_of_day, weather_bucket, weekday_type, congestion_level for association rule mining.
+2026-09-14 16:21:42 | INFO     | unsupervised_models | Apriori: 271 frequent itemsets, 1002 rules (min_support=0.005, lift>=1.0).
+2026-09-14 16:21:42 | INFO     | unsupervised_models | 116 rules predict a congestion_level, top rule: {'antecedents': 'time_of_day_Night, weather_bucket_Clouds, weekday_type_Weekend', 'consequents': 'congestion_level_Low', 'antecedent support': 0.018459642637091805, 'consequent support': 0.25000616142945165, 'support': 0.01678373382624769, 'confidence': 0.9092122830440589, 'lift': 3.636759501627828, 'representativity': 1.0, 'leverage': 0.012168709429188927, 'conviction': 8.260961545431494, 'zhangs_metric': 0.7386654339917554, 'jaccard': 0.06668625146886016, 'certainty': 0.8789487162601521, 'kulczynski': 0.48817278190057833}
+2026-09-14 16:21:43 | INFO     | __main__ | Logged MLflow run: Association Rule Mining (Apriori)
+2026-09-14 16:21:43 | WARNING  | tensorflow | TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+2026-09-14 16:21:43 | INFO     | deep_learning_explainability | Built 28871 gap-respecting 24-hour windows out of 40551 candidates (71.2% valid).
+2026-09-14 16:21:43 | INFO     | deep_learning_explainability | Chronological split at 2017-10-26 18:00:00: 21185 train windows, 7686 test windows.
+2026-09-14 16:21:43 | DEBUG    | urllib3.connectionpool | https://api.mlflow-telemetry.io:443 "POST /log HTTP/1.1" 200 30
+2026-09-14 16:21:44 | INFO     | __main__ | Logged MLflow run: LSTM (traffic_volume, 24h lookback) — MAE=174.33, R2=0.9832
+2026-09-14 16:21:44 | INFO     | __main__ | Task 4 complete. 21 runs logged.
+2026-09-14 16:24:04 | INFO     | __main__ | Starting Task 5: Traffic Recommendation System.
+2026-09-14 16:24:04 | INFO     | data_prep | Preparing Part 3 dataset from Part 2's pipeline and feature engineering.
+2026-09-14 16:24:04 | INFO     | pipeline | Loading data from C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\data\Metro_Interstate_Traffic_Volume.csv
+2026-09-14 16:24:04 | INFO     | pipeline | Loaded 48204 rows and 9 columns
+2026-09-14 16:24:04 | INFO     | pipeline | Schema validation passed: all 9 expected columns are present.
+2026-09-14 16:24:04 | INFO     | pipeline | 'holiday' already parsed as missing (NaN) for 48143 non-holiday rows (pandas recognised the source CSV's literal 'None' text automatically).
+2026-09-14 16:24:04 | WARNING  | pipeline | Standardised casing to lowercase in 1730 rows of 'weather_description' (merging case-variant duplicates such as 'Sky is Clear' / 'sky is clear').
+2026-09-14 16:24:04 | INFO     | pipeline | 'weather_description' now has 37 unique values (was 38 before standardisation).
+2026-09-14 16:24:04 | INFO     | pipeline | All 48204 values in 'date_time' parsed successfully as datetimes (was dtype 'object').
+2026-09-14 16:24:04 | INFO     | pipeline | 'date_time' range: 2012-10-02 09:00:00 to 2018-09-30 23:00:00.
+2026-09-14 16:24:04 | WARNING  | pipeline | Removed 17 exact duplicate rows.
+2026-09-14 16:24:05 | WARNING  | pipeline | Collapsed 5430 duplicate-timestamp hours (7612 rows removed) down to one row per hour; 0 of these hours had inconsistent traffic_volume across duplicates.
+2026-09-14 16:24:05 | WARNING  | pipeline | Found 10 rows with physically impossible 'temp' readings (<= 0 Kelvin).
+2026-09-14 16:24:05 | WARNING  | pipeline | Found 1 rows with physically implausible 'rain_1h' readings (> 1000mm/hour): [9831.3]
+2026-09-14 16:24:05 | WARNING  | pipeline | Imputed 4 missing 'temp' value(s) in month 1 using that month's median (265.48).
+2026-09-14 16:24:05 | WARNING  | pipeline | Imputed 6 missing 'temp' value(s) in month 2 using that month's median (265.89).
+2026-09-14 16:24:05 | WARNING  | pipeline | Imputed 1 missing 'rain_1h' value(s) in month 7 using that month's median (0.00).
+2026-09-14 16:24:05 | INFO     | pipeline | Pipeline completed successfully. Final shape: 40575 rows, 9 columns.
+2026-09-14 16:24:05 | INFO     | feature_engineering | Feature engineering started. Input shape: 40575 rows, 9 columns.
+2026-09-14 16:24:05 | INFO     | feature_engineering | Added time features: hour, day_of_week, is_weekend, hour_sin, hour_cos.
+2026-09-14 16:24:05 | INFO     | feature_engineering | One-hot encoded 'weather_main' into 11 columns (prefix 'wx_').
+2026-09-14 16:24:05 | INFO     | feature_engineering | Added 'is_severe_weather' indicator (['Thunderstorm', 'Squall']); 454 of 40575 rows flagged.
+2026-09-14 16:24:05 | DEBUG    | feature_engineering | 'temp' scaling parameters: mean=281.3823, std=13.0939.
+2026-09-14 16:24:05 | DEBUG    | feature_engineering | 'traffic_volume' scaling parameters: mean=3290.6505, std=1984.7729.
+2026-09-14 16:24:05 | INFO     | feature_engineering | Created scaled versions of: ['temp', 'traffic_volume'].
+2026-09-14 16:24:05 | DEBUG    | feature_engineering | Congestion category thresholds for 'traffic_volume': Q1=1248.50, Q3=4952.00.
+2026-09-14 16:24:05 | INFO     | feature_engineering | Created 'congestion_category' (Low <= 1248.50, Medium, High > 4952.00): {'Medium': 20289, 'Low': 10144, 'High': 10142}
+2026-09-14 16:24:05 | INFO     | feature_engineering | Feature engineering completed. Output shape: 40575 rows, 29 columns.
+2026-09-14 16:24:05 | INFO     | data_prep | Added 'is_holiday' flag; 53 of 40575 rows flagged as a holiday.
+2026-09-14 16:24:05 | INFO     | data_prep | Added cyclical day-of-week encoding: dow_sin, dow_cos.
+2026-09-14 16:24:05 | INFO     | data_prep | Added 'is_low_visibility' flag (['Fog', 'Mist', 'Haze', 'Smoke']); 4051 of 40575 rows flagged.
+2026-09-14 16:24:05 | INFO     | data_prep | Created 'risk_congestion_category' (Low <= 1248.50, Medium <= 3427.00, High <= 4952.00, else Severe): {'High': 10145, 'Medium': 10144, 'Low': 10144, 'Severe': 10142}
+2026-09-14 16:24:05 | INFO     | data_prep | Created proxy 'high_risk' label (High/Severe congestion AND severe/low-visibility weather): 1926 of 40575 rows flagged (4.75%).
+2026-09-14 16:24:05 | INFO     | data_prep | Part 3 dataset ready. Final shape: 40575 rows, 35 columns.
+2026-09-14 16:24:05 | INFO     | __main__ | Loaded random forest regressor from C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\part3_machine_learning\models\random_forest_traffic_volume.joblib.
+2026-09-14 16:24:05 | INFO     | __main__ | Built weather frequency and representative-condition lookup for 11 categories.
+2026-09-14 16:24:06 | INFO     | __main__ | Saved recommendation table to C:\Users\user\OneDrive\Documents\AI ML and DS Course NUS\Capstone Project\smart-city-traffic-capstone\part3_machine_learning\recommendation_system\task5_recommendations.csv (24 rows).
+2026-09-14 16:24:06 | INFO     | __main__ | Example recommendation (weekday): For a weekday journey, consider travelling between 10:00 AM and 11:00 AM, when historical traffic volumes dip to a local low between the morning and evening rush periods (predicted volume approximately 4511, 30% below the daily peak of approximately 6453).
+2026-09-14 16:24:06 | INFO     | __main__ | Example recommendation (weekend): For a weekend journey, there is no significant midday dip between rush periods; the lowest point within typical travel hours is around 7:00 AM to 8:00 AM (predicted volume approximately 2123, 55% below the daily peak of approximately 4729).
+2026-09-14 16:24:06 | INFO     | __main__ | Task 5 complete.

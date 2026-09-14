@@ -34,6 +34,7 @@ can reuse them without retraining.
 """
 
 import logging
+import sys
 from pathlib import Path
 
 import joblib
@@ -209,6 +210,12 @@ def run_task1():
 
 
 if __name__ == "__main__":
+    # Re-assert this script's own directory at the front of sys.path: importing
+    # data_prep above inserts part2_python ahead of it (so pipeline.py and
+    # feature_engineering.py can be found), which would otherwise cause this
+    # bare import to resolve to part2_python's same-named logging_config.py
+    # instead of this file's own, silently redirecting the log file there.
+    sys.path.insert(0, str(SCRIPT_DIR))
     from logging_config import configure_logging
     configure_logging()
     run_task1()
