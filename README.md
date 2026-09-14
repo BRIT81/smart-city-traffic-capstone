@@ -16,7 +16,9 @@ smart-city-traffic-capstone/
 ├── data/
 │   └── Metro_Interstate_Traffic_Volume.csv
 ├── part1_data_analytics/
-│   ├── part1_analysis_notes.docx   # written findings for every Part 1 task (1-4)
+│   ├── part1_analysis_notes.docx    # written findings for every Part 1 task (1-4), + .pdf
+│   ├── part1_insights_report.docx   # short, stakeholder-facing summary of Part 1's
+│   │                                 # findings and their implications, + .pdf
 │   ├── sql/               # traffic.db (SQLite) + numbered .sql query files, Task 1
 │   ├── statistics/        # task2_statistics_correlation.xlsx: descriptive stats,
 │   │                       # correlation and probability calculations, Tasks 2-3
@@ -30,7 +32,7 @@ smart-city-traffic-capstone/
 │   │   └── traffic_cli.py       # Task 4: CLI app (builds on Tasks 1-2)
 │   ├── figures/                 # saved PNG charts from visualizations.py
 │   ├── dev_notebook.ipynb       # interactive prototyping/verification notebook
-│   ├── part2_report.docx        # Task 5: 1-2 page methodology and findings report
+│   ├── part2_report.docx        # Task 5: 1-2 page methodology and findings report, + .pdf
 │   └── pipeline.log             # shared log file for every Part 2 script
 └── part3_machine_learning/
     ├── data_prep.py                      # shared Part 3 data prep: reuses Part 2's pipeline
@@ -65,6 +67,10 @@ smart-city-traffic-capstone/
     ├── task2_cluster_profile.csv         # Task 2 output
     ├── task2_congestion_rules.csv        # Task 2 output
     ├── task3_hour_shap_effect.csv        # Task 3 output
+    ├── part3_bias_fairness_governance_report.docx  # Task 7: bias/fairness report and a
+    │                                      # governance and sustainability discussion, + .pdf
+    ├── part3_final_capstone_report.docx  # Final capstone report: methodology and findings
+    │                                      # across every task in Parts 1-3, + .pdf
     └── pipeline.log                      # shared log file for every Part 3 script
 ```
 
@@ -75,11 +81,13 @@ Part 3 reuses the engineered features and pipeline from Part 2.
 
 - [x] Part 1 – Data Analytics (SQL, statistics, probability, Power BI)
 - [x] Part 2 – Python (pipeline, feature engineering, visualisation, CLI app)
-- [ ] Part 3 – Machine Learning & AI (models, MLOps, recommendation system) — Tasks 1-6 of 7
+- [x] Part 3 – Machine Learning & AI (models, MLOps, recommendation system) — all 7 tasks
       complete (supervised and unsupervised models, deep learning with explainability, MLflow
       tracking, recommendation system, model versioning with a registered MLflow model,
-      deployment simulation, drift monitoring and alerting); Task 7 (responsible and
-      sustainable AI) pending
+      deployment simulation, drift monitoring and alerting, and a bias/fairness/governance
+      report for Task 7). A final capstone report covering methodology and findings across
+      every task in Parts 1-3 is at
+      `part3_machine_learning/part3_final_capstone_report.docx`.
 
 ## Tools and technologies
 
@@ -111,7 +119,10 @@ Desktop, the Power Query steps used to clean and prepare the data are saved in t
 Applied Steps.
 
 The written findings and interpretation for all four tasks are in
-`part1_data_analytics/part1_analysis_notes.docx`.
+`part1_data_analytics/part1_analysis_notes.docx`, with a short, stakeholder-facing summary of
+the same findings and their implications for the mobility team in
+`part1_data_analytics/part1_insights_report.docx`. A PDF of each is included alongside the
+`.docx` for easy viewing directly on GitHub.
 
 ### Part 2 — Python (pipeline, feature engineering, visualisation, CLI app)
 
@@ -219,6 +230,15 @@ prototyping. Task 6.3-6.5's actual `app.py` and `drift_monitor.py` scripts were 
 directly rather than prototyped cell-by-cell (a live API server and a script reading a live
 log file do not fit that pattern the way a data transformation does); the notebook's closing
 cell for Task 6 explains this and summarises how both scripts were verified end to end instead.
+
+Task 7, responsible and sustainable AI, is a written deliverable rather than a script: a bias
+and fairness report (covering sampling/coverage limitations, the `high_risk` proxy label's
+risks, and how error is distributed unevenly across conditions and time periods) together with
+a governance and sustainability discussion, in
+`part3_machine_learning/part3_bias_fairness_governance_report.docx`. A final capstone report
+tying together the methodology and findings from every task across all three parts is
+`part3_machine_learning/part3_final_capstone_report.docx`. A PDF of each is included alongside
+the `.docx`.
 
 ## Logging configuration
 
